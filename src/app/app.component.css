@@ -1,0 +1,38 @@
+.footer{
+    max-height: 33px;
+    width: 100%;
+    color:#000;
+    background: #63a4ff;
+    padding: 4px;
+      position:fixed;
+      bottom: 0px;
+    font-size: 12px;
+  }
+  
+  .logogit{
+    height: 25px;
+    width: 25px;
+  }
+  
+  
+  @media screen and (max-width: 768px){
+    footer{
+      font-size: 12px;
+    }
+  }
+  
+  @media screen and (max-width: 576px){
+    footer{
+      display: none;
+    }
+  }
+  
+  /* Medium devices (tablets, 768px and up)*/
+  @media (min-width: 768px) {  }
+  
+  /* Large devices (desktops, 992px and up)*/
+  @media (min-width: 992px) {  }
+  
+  /* Extra large devices (large desktops, 1200px and up)*/
+  @media (min-width: 1200px) {  }
+  

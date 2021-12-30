@@ -1,0 +1,35 @@
+<div class="container-fluid">
+
+  <div class="row" >
+    <div class="col-12">
+      <app-menu></app-menu>
+    </div>
+    <div class="col-12">
+      <app-alertas-notif *ngIf="router.url != '/alertas'"></app-alertas-notif>
+    </div>
+    <div class="col-9">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col-3">
+      <div class="row" >
+      <div *ngIf="router.url != '/mensajes'">
+        <app-mensajes></app-mensajes>
+      </div>
+      <div *ngIf="router.url != '/alertas'">
+        <app-alertas></app-alertas>
+      </div>
+     </div>
+
+    </div>
+  </div>
+  <ng-template #showBienvenida>
+    <app-bienvenida></app-bienvenida>
+  </ng-template>
+
+  <div class="col-12" class="footer">
+    contactos: estejpagano@gmail.com @Creative Commons
+    <a href="https://github.com/elpagano/tgdhuggs" target="_blank">
+      - <img src="assets/github.png"  class="logogit">
+      </a>
+  </div>
+</div>
