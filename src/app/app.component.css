@@ -14,7 +14,9 @@
     width: 25px;
   }
   
-  
+  mat-grid-tile {
+    background: lightblue;
+  }
   @media screen and (max-width: 768px){
     footer{
       font-size: 12px;
