@@ -9,6 +9,8 @@ import firebase from 'firebase/compat/app';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = 'huggs';
+
   constructor( public router: Router, public auth: AngularFireAuth, ) 
   {
 
@@ -19,5 +21,4 @@ export class AppComponent {
   logout() {
     this.auth.signOut();
   }
-  title = 'huggs21';
 }

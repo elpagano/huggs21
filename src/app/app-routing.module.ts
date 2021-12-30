@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-//modulos
+import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
+
 import { NotfoundComponent } from './global/notfound/notfound.component';
 import { AlertasComponent } from './alertas/alertas.component';
-import { AlertasNotifComponent } from './alertas/alertas-notif/alertas-notif.component';
-import { BienvenidaComponent } from './bienvenida/bienvenida.component';
-import { MenuComponent } from './global/menu/menu.component';
 import { InicioComponent } from './global/inicio/inicio.component';
 import { OpcionesComponent } from './global/opciones/opciones.component';
 import { TomaDatosComponent } from './toma-datos/toma-datos.component';
@@ -19,16 +17,16 @@ import { ProgramacionComponent } from './programacion/programacion.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full',    component: InicioComponent  },
-  { path: 'alertas', component: AlertasComponent },
-  { path: 'TomaDatos', component: TomaDatosComponent },
-  { path: 'documentacion', component: DocumentacionComponent },
-  { path: 'grupos', component: GrupoComponent },
-  { path: 'mensajes', component: MensajesComponent },
-  { path: 'metricas', component: MetricasComponent },
-  { path: 'opciones', component: OpcionesComponent },
-  { path: 'permisos', component: PermisosComponent },
-  { path: 'programacion', component: ProgramacionComponent },
-  { path: 'adminUsuario', component: GrupoAdminUsuarioComponent },
+  { path: 'alertas', component: AlertasComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'TomaDatos', component: TomaDatosComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'documentacion', component: DocumentacionComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'grupos', component: GrupoComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'mensajes', component: MensajesComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'metricas', component: MetricasComponent , canActivate: [AngularFireAuthGuard] },
+  { path: 'opciones', component: OpcionesComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'permisos', component: PermisosComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'programacion', component: ProgramacionComponent, canActivate: [AngularFireAuthGuard]  },
+  { path: 'adminUsuario', component: GrupoAdminUsuarioComponent , canActivate: [AngularFireAuthGuard] },
   { path: '**', component: NotfoundComponent }
 ];
 @NgModule({
