@@ -10,6 +10,12 @@
    </div>
  </nav>
  -->
+
+ <div class="navbar-nav">
+  <a *ngFor="let item of items" class=" nav-link " routerLink={{item.url}}><img  class="menuImg" src={{item.icon}}>{{ item.text }}</a>
+</div>
+
+
  <button mat-button >
    <img alt="Brand" class="menuImgLogo" src="./assets/logo.svg">
 </button>
