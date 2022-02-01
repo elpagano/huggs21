@@ -1,47 +1,44 @@
-<mat-grid-list cols="2" rowHeight="fit" style="height: 100%">
+<div class="container-fluid">
+  <div *ngIf="auth.user | async as user; else showLogin">
+    <h1>Hello {{ user.displayName }}!</h1>
+    <button (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+    <p>Please login.</p>
+    <button (click)="login()">Login with Google</button>
+  </ng-template>
+  <div class="row" *ngIf="auth.user | async as user; else showLogin">
+    <div class="col-12">
 
-  <mat-grid-tile [colspan]=2>
-    <mat-grid-tile-header style="padding: 3;">
       <app-menu></app-menu>
-    </mat-grid-tile-header>
-    <div *ngIf="auth.user | async as user; else showLogin">
-      <h1>Hello {{ user.displayName }}!</h1>
-      <button (click)="logout()">Logout</button>
     </div>
-
-    <ng-template #showLogin>
-      <p>Please login.</p>
-      <button (click)="login()">Login with Google</button>
-    </ng-template>
-  </mat-grid-tile>
-
-  <mat-grid-tile>
-    <app-alertas-notif *ngIf="router.url != '/alertas'"></app-alertas-notif>
-  </mat-grid-tile>
-
-  <mat-grid-tile>
-    <div class="row">
+    
+    <div class="col-12">
+      <app-alertas-notif *ngIf="router.url != '/alertas'"></app-alertas-notif>
+    </div>
+    <div class="col-9">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col-3">
+      <div class="row" >
       <div *ngIf="router.url != '/mensajes'">
         <app-mensajes></app-mensajes>
       </div>
       <div *ngIf="router.url != '/alertas'">
         <app-alertas></app-alertas>
       </div>
+     </div>
+
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile>
+  </div>
+  <ng-template #showBienvenida>
     <app-bienvenida></app-bienvenida>
-  </mat-grid-tile>
-</mat-grid-list>
+  </ng-template>
 
-
-
-
-
-
-<div class="col-12" class="footer">
-  contactos: estejpagano@gmail.com @Creative Commons
-  <a href="https://github.com/elpagano/tgdhuggs" target="_blank">
-    - <img src="assets/github.png" class="logogit">
-  </a>
+  <div class="col-12" class="footer">
+    contactos: estejpagano@gmail.com @Creative Commons
+    <a href="https://github.com/elpagano/tgdhuggs" target="_blank">
+      - <img src="assets/github.png"  class="logogit">
+      </a>
+  </div>
 </div>

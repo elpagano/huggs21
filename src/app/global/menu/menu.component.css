@@ -32,13 +32,13 @@
     padding: 7px;
   }
   
-  @media screen and (max-width: 848px) {
+  @media screen and (max-width: 348px) {
     .menu-full {
       display: none;
     }
   }
   
-  @media screen and (min-width: 849px) {
+  @media screen and (min-width: 349px) {
     .menu-chico {
       display: none;
     }

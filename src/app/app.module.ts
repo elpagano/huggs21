@@ -3,12 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
-
-//Material
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-
+import { SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
+import { USE_DEVICE_LANGUAGE } from '@angular/fire/compat/auth';
+import { PERSISTENCE } from '@angular/fire/compat/auth';
 
 import { environment } from '../environments/environment';
 
@@ -37,6 +34,7 @@ import { MensajesComponent } from './mensajes/mensajes.component';
 import { MetricasComponent } from './metricas/metricas.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { ProgramacionComponent } from './programacion/programacion.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -71,11 +69,12 @@ import { ProgramacionComponent } from './programacion/programacion.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatMenuModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [    { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
+    { provide: USE_DEVICE_LANGUAGE, useValue: true },
+    { provide: PERSISTENCE, useValue: 'session' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
