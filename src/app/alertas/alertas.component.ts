@@ -11,6 +11,7 @@ export class AlertasComponent implements OnInit {
   items: Observable<any[]>;
   constructor(firestore: AngularFirestore) {
     this.items = firestore.collection('items').valueChanges();
+    console.log('items', this.items )
    }
 
   ngOnInit(): void {
