@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { doc, deleteDoc } from "firebase/firestore";
 
 export interface Item { id: string; name: string; }
 
@@ -25,4 +26,8 @@ export class TomaDatosComponent{
     const item: Item = { id, name };
     this.itemsCollection.doc(id).set(item);
   }
+/* 
+  deleteDoc(){
+    db.collection('item').doc('DSFSFDDS').delete();
+  } */
 }
