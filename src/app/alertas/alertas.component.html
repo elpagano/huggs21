@@ -1,6 +1,15 @@
-<p>alertas works!</p>
-<ul>
+<div class="card" style="width: 20rem;">
+
+<div class="card" style="width: 20rem;">
+  <a alt="Alerta" (click)="addItem(msgVal)"><img src="assets/icon/alertasSend.svg"></a>
+  <input type="text" placeholder="Mensaje max 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal"
+    size="22" maxlength="30" class="imputH" />
+</div>
+
+  <ul>
     <li class="text" *ngFor="let item of items | async">
-      {{item.name}}
+      {{item.texto}}
+      <button (click)="deleteDoc(item.id)">eliminar</button>
     </li>
   </ul>
+</div>

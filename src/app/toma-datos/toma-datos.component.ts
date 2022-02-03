@@ -12,7 +12,11 @@ export interface Item { id: string; name: string; }
 })
 
 export class TomaDatosComponent{
+
+
   private itemsCollection: AngularFirestoreCollection<Item>;
+
+
   items: Observable<Item[]>;
   constructor(private readonly afs: AngularFirestore) {
     this.itemsCollection = afs.collection<Item>('items');
@@ -26,8 +30,13 @@ export class TomaDatosComponent{
     const item: Item = { id, name };
     this.itemsCollection.doc(id).set(item);
   }
-/* 
+
   deleteDoc(){
-    db.collection('item').doc('DSFSFDDS').delete();
-  } */
+   try {
+      this.afs.collection('item').doc('DSFSFDDS').delete();
+   } catch (error) {
+     console.log("deleteDoc", error)
+   }
+
+  } 
 }
