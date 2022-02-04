@@ -1,13 +1,19 @@
-<div class="card" style="width: 20rem;">
+<div style="width: 20rem;">
 
-<div class="card" style="width: 20rem;">
-  <a alt="Alerta" (click)="addItem(msgVal)"><img src="assets/icon/alertasSend.svg"></a>
-  <input type="text" placeholder="Mensaje max 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal"
-    size="22" maxlength="30" class="imputH" />
-</div>
+  <div style="width: 20rem;">
+    <a alt="Alerta" *ngIf="!alerta"
+     (click)="addItem(msgVal, $event)">
+     <img src="assets/icon/alertasSend.svg">
+    </a>
+    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal, $event)" [(ngModel)]="msgVal" size="22"
+      maxlength="30" />
+      <ngb-alert *ngIf="alerta"  type="primary" (closed)="close()" >
+        <strong>Atención!</strong> su alerta fué enviada
+      </ngb-alert>
+  </div>
 
   <ul>
-    <li class="text" *ngFor="let item of items | async">
+    <li *ngFor="let item of items | async" >
       {{item.texto}}
       <button (click)="deleteDoc(item.id)">eliminar</button>
     </li>

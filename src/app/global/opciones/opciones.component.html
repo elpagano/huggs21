@@ -1,1 +1,32 @@
-<p>opciones works!</p>
+<div>
+    <div >
+        <div class="col-md-6 form-group">
+
+            <label>Usuario </label>
+            <input type="text" class="form-control" [(ngModel)]="usuario" />
+            <label>Rol principal </label>
+            <input type="text" class="form-control" [(ngModel)]="rol" />
+            <label>Lugar de trabajo </label>
+            <input type="text" class="form-control" [(ngModel)]="lugar" />
+            <label>Horarios disponibles </label>
+            <input type="text" class="form-control" [(ngModel)]="horarioydia" />
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Lenguajes que habla </label>
+            <input type="text" class="form-control" [(ngModel)]="lenguaje" />
+            <label>Título de Base </label>
+            <input type="text" class="form-control" [(ngModel)]="titulo" />
+            <label>Facultad </label>
+            <input type="text" class="form-control" [(ngModel)]="facultad" />
+            <label>Capasitaciones </label>
+            <input type="text" class="form-control" [(ngModel)]="capasitaciones" />
+        </div>
+        <span class="clearfix"></span>
+        <div class="col s12">
+            <button type="button" class="btn btn-info" (click)="updateUsuario()">
+                Guardar</button>
+        </div>
+
+    </div>
+
+</div>
