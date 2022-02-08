@@ -29,7 +29,7 @@ export class AlertasComponent {
   constructor(private readonly afs: AngularFirestore) {
     this.itemsCollection = afs.collection<Alert>('items');
     this.items = this.itemsCollection.valueChanges({ idField: 'customID' });
-   }
+  }
 
   addItem(texto: string, event: Event) {
     const auth = getAuth();
@@ -43,21 +43,24 @@ export class AlertasComponent {
     let usuario_id = auth.currentUser?.uid || '';
 
     console.log("auth", auth.currentUser?.displayName)
-    console.log("auth", typeof(auth.currentUser?.uid.toString()))
+    console.log("auth", typeof (auth.currentUser?.uid.toString()))
     // Persist a document id
-    const item: Alert = { id, usuario_id, grupo_id,  lugar,  texto, estado };
+    const item: Alert = { id, usuario_id, grupo_id, lugar, texto, estado };
     delay(500)
     this.itemsCollection.doc(id).set(item);
   }
 
   close() {
-    this.alerta  = false;
+    this.alerta = false;
   }
 
-  deleteDoc(id: string){
-   try {
+  deleteDoc(id: string) {
+    try {
       this.afs.collection('items').doc(id).delete();
-   } catch (error) {
-     console.log("deleteDoc", error)
-   }  } 
+    } catch (error) {
+      console.log("deleteDoc", error)
+    }
+  }
+
+
 }
