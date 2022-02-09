@@ -6,6 +6,8 @@ import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
 import { USE_DEVICE_LANGUAGE } from '@angular/fire/compat/auth';
 import { PERSISTENCE } from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 
@@ -69,10 +71,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms"; //this to use
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule,                        
+    AngularFireDatabaseModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [{ provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
   { provide: USE_DEVICE_LANGUAGE, useValue: true },

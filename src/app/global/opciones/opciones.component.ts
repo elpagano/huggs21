@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { delay, Observable, of, switchMap, Subject } from 'rxjs';
 import { getAuth,  } from "firebase/auth";
 import { Opciones } from "./opcionesInt"
@@ -13,13 +13,11 @@ import { ajax } from 'rxjs/ajax';
   templateUrl: './opciones.component.html',
   styleUrls: ['./opciones.component.css']
 })
+
 export class OpcionesComponent implements OnInit {
 
-  items: Observable<Opciones[]>;
-  private itemsCollection: AngularFirestoreCollection<Opciones>;
   texto = new FormControl('');
   auth = getAuth();
-
   email =  '';
   nomUsuer =  '';
   userId =  this.auth.currentUser?.uid || '';
@@ -35,23 +33,38 @@ export class OpcionesComponent implements OnInit {
   // opciones = { email:'', userId:'', rol:'',  lugar:'', horarioydia:Date(), lenguaje:'',  titulo:'',facultad:'', capasitaciones:''}
   mDistricts =  '';
 
-  constructor(private readonly afs: AngularFirestore) {
-    this.itemsCollection = afs.collection<Opciones>('options');
-    this.items = this.itemsCollection.valueChanges({ idField: 'customID' })
-    const uId =  this.auth.currentUser?.uid || '';
-    /* this.items.forEach(value => {
-      total += value;
-      console.log('observable -> ', value);
-    });
- 
-    this.items.pipe(
-      map((clients: Opciones[]) => clients.map(
-        client =>
-                  console.log('options', client.apellido)
-        ))
-      ) */
-      
+  private itemDoc: AngularFirestoreDocument<Opciones>;
+  item: Observable<Opciones>;
+
+  constructor(private afs: AngularFirestore) {
+    this.itemDoc = afs.doc<Opciones>('options/1');
+    this.item = this.itemDoc.valueChanges() as Observable<Opciones>;
+    console.log('options', this.itemDoc, this.item )
+
   }
+/* 
+
+  getOptions() {
+
+    this.itemDoc.valueChanges().subscribe(data => {
+      this.email = data.email;
+      this.nomUsuer = data.nomUsuer;
+      this.userId = data.userId;
+      this.rol = data.rol;
+      this.nombre = data.nombre;
+      this.apellido = data.apellido;
+      this.lugar = data.lugar;
+      this.horarioydia = data.horarioydia;
+      this.lenguaje = data.lenguaje;
+      this.titulo = data.titulo;
+      this.facultad = data.facultad;
+      this.capasitaciones = data.capasitaciones;
+      this.mDistricts = data.mDistricts;
+    });
+  }
+       */
+
+
 
   ngOnInit() {
     const uId =  this.auth.currentUser?.uid || '';
