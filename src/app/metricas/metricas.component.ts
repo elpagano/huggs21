@@ -11,20 +11,10 @@ import { Observable } from 'rxjs';
 })
 export class MetricasComponent implements OnInit {
 
-  user: Observable<any>;              // Example: store the user's info here (Cloud Firestore: collection is 'users', docId is the user's email, lower case)
-
   constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) {
-      this.user = null;
   }
 
   ngOnInit(): void {
-      this.afAuth.authState.subscribe(user => {
-          console.log('Dashboard: user', user);
-
-          if (user) {
-              let emailLower = user.email.toLowerCase();
-              this.user = this.firestore.collection('users').doc(emailLower).valueChanges();
-          }
-      });
+      
   }
 }
