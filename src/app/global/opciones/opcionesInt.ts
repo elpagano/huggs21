@@ -3,11 +3,12 @@ export interface Opciones {
   nomUsuer: string;
   email: string;
   userId: string;
+  foto: string;
   nombre: string;
   apellido: string;
   rol: string;
   lugar: string;
-  horarioydia: Date;
+  horarioydia: string;
   lenguaje: string;
   titulo: string;
   facultad: string;

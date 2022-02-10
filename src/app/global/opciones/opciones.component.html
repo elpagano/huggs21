@@ -3,34 +3,45 @@
         <div class="col-md-6 form-group">
 
             <label>Usuario </label>
-            <input type="text" class="form-control" [(ngModel)]="nomUsuer" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.nomUsuer" />
             <label>Email </label>
-            <input type="text" class="form-control" [(ngModel)]="email" />
+            <input type="email" class="form-control" [(ngModel)]="opcionesArr.email" />
             <label>Nombre </label>
-            <input type="text" class="form-control" [(ngModel)]="nombre" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.nombre" />
             <label>Apellido </label>
-            <input type="text" class="form-control" [(ngModel)]="apellido" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.apellido" />
             <label>Rol principal </label>
-            <input type="text" class="form-control" [(ngModel)]="rol" />
+            <form [formGroup]="form">
+                <select formControlName="state">
+                  <option *ngFor="let rol of roles" [ngValue]="rol">
+                    {{ rol.name }}
+                  </option>
+                </select>
+              </form>
+
             <label>Lugar de trabajo </label>
-            <input type="text" class="form-control" [(ngModel)]="lugar" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.lugar" />
             <label>Horarios disponibles </label>
-            <input type="text" class="form-control" [(ngModel)]="horarioydia" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.horarioydia" />
         </div>
         <div class="col-md-6 form-group">
             <label>Lenguajes que habla </label>
-            <input type="text" class="form-control" [(ngModel)]="lenguaje" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.lenguaje" />
             <label>Título de Base </label>
-            <input type="text" class="form-control" [(ngModel)]="titulo" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.titulo" />
             <label>Facultad </label>
-            <input type="text" class="form-control" [(ngModel)]="facultad" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.facultad" />
             <label>Capasitaciones </label>
-            <input type="text" class="form-control" [(ngModel)]="capasitaciones" />
+            <input type="text" class="form-control" [(ngModel)]="opcionesArr.capasitaciones" />
         </div>
         <span class="clearfix"></span>
         <div class="col s12">
-            <button type="button" class="btn btn-info" (click)="updateUsuario()">
-                Guardar</button>
+            <ng-template [ngIf]="find">
+                <button type="button" class="btn btn-info" (click)="updateUsuario()">Actualizar</button>
+            </ng-template>
+            <ng-template [ngIf]="!find">
+                <button type="button" class="btn btn-info" (click)="createUsuario()">Cargar Datos</button>
+            </ng-template>
         </div>
 
     </div>
