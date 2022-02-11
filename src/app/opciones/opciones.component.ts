@@ -19,8 +19,8 @@ export class OpcionesComponent implements OnInit {
   texto = new FormControl('');
   auth = getAuth();
   opcionesArr = {
-    email: this.auth.currentUser?.email || '',
     nomUsuer: this.auth.currentUser?.displayName || '',
+    email: this.auth.currentUser?.email || '',
     userId: this.auth.currentUser?.uid || '',
     foto: this.auth.currentUser?.photoURL || '',
     nombre: '', apellido: '', rol: '', lugar: '', horarioydia: '',
@@ -90,7 +90,6 @@ export class OpcionesComponent implements OnInit {
   }
 
   dataform() {
-    console.log('dataform', this.form.value.state.abbrev )  
     
     const id = this.afs.createId();
     let nomUsuer = this.opcionesArr.nomUsuer;
