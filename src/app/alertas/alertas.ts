@@ -5,4 +5,6 @@ export interface Alert {
      lugar: string,
      texto: string,
      estado: string,
+     foto: string;
+     fecha: string;
 } 

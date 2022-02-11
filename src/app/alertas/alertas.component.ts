@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { delay, Observable } from 'rxjs';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { Alert } from "./alertas"
 
 @Component({
@@ -26,28 +26,17 @@ export class AlertasComponent {
     grupo_id: '', 
     lugar: '',
     texto: '',
-    estado: ''
+    estado: '',
+    foto: '',
+    fecha: '',
   }
 
   constructor(private readonly afs: AngularFirestore) {
-    this.itemsCollection = afs.collection<Alert>('items', ref => ref.limit(1));
+    this.itemsCollection = afs.collection<Alert>('items', ref => ref.limit(1).orderBy('fecha'));
     this.items = this.itemsCollection.valueChanges({ idField: 'customID' })
     
   }
 
-  getOpciones() {
-
-    const uId = this.auth.currentUser?.uid || '';
-    let expensesCollection = this.afs.collection('/options',
-      ref => ref.where('userId', '==', uId));
-
-    expensesCollection.valueChanges().subscribe(
-      (data: any) => {
-        console.log('data', data)
-        
-      }
-    );
-  }
 
   addItem(texto: string, event: Event) {
     const auth = getAuth();
@@ -59,12 +48,12 @@ export class AlertasComponent {
     const lugar = 'aa';
     const estado = "1";
     let userId = auth.currentUser?.uid || '';
-
+    const foto =  this.auth.currentUser?.photoURL || '';
+    const fecha =  Date()
     console.log("auth", auth.currentUser?.displayName)
     console.log("auth", typeof (auth.currentUser?.uid.toString()))
     // Persist a document id
-    const item: Alert = { id, userId, grupo_id, lugar, texto, estado };
-    delay(500)
+    const item: Alert = { id, userId, grupo_id, lugar, texto, estado, foto, fecha };
     this.itemsCollection.doc(id).set(item);
   }
 
@@ -88,10 +77,11 @@ export class AlertasComponent {
     let lugar = this.alertasArr.lugar;
     let texto = this.alertasArr.texto;
     let estado = this.alertasArr.estado;
-
+    let foto = this.alertasArr.foto;
+    let fecha = this.alertasArr.fecha;
     const colecciones: Alert = {
       id, userId, grupo_id, lugar,
-      texto, estado
+      texto, estado, foto, fecha
     };
 
     return colecciones;

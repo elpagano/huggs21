@@ -90,7 +90,7 @@ export class OpcionesComponent implements OnInit {
   }
 
   dataform() {
-    
+
     const id = this.afs.createId();
     let nomUsuer = this.opcionesArr.nomUsuer;
     let email = this.opcionesArr.email;
@@ -98,7 +98,7 @@ export class OpcionesComponent implements OnInit {
     let foto = this.opcionesArr.foto;
     let nombre = this.opcionesArr.nombre;
     let apellido = this.opcionesArr.apellido;
-    let rol = this.form.value.state.abbrev;
+    let rol = this.opcionesArr.rol;
     let lugar = this.opcionesArr.lugar;
     let horarioydia = this.opcionesArr.horarioydia;
     let lenguaje = this.opcionesArr.lenguaje;
@@ -116,6 +116,8 @@ export class OpcionesComponent implements OnInit {
   }
 
   updateUsuario() {
+    console.log("updateUsuario")
+
     let coleccionForm = this.dataform()
     try {
       this.afs.collection('options').doc(coleccionForm.userId).update(coleccionForm);
@@ -125,11 +127,13 @@ export class OpcionesComponent implements OnInit {
   }
 
   createUsuario() {
+    console.log("createUsuario")
+
     let coleccionForm = this.dataform()
     try {
       this.afs.collection('options').doc(coleccionForm.userId).set(coleccionForm);
     } catch (error) {
-      console.log("updateUsuario", error)
+      console.log("createUsuario", error)
     }
   }
 

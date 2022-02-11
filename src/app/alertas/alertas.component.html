@@ -1,19 +1,23 @@
 <div style="width: 20rem;">
   <div style="width: 20rem;">
-    <a alt="Alerta" *ngIf="!alerta"
-     (click)="addItem(msgVal, $event)">
-     <img src="assets/icon/alertasSend.svg">
+    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal, $event)">
+      <img src="assets/icon/alertasSend.svg">
     </a>
-    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal, $event)" [(ngModel)]="msgVal" size="22"
-      maxlength="30" />
-      <ngb-alert *ngIf="alerta"  type="primary" (closed)="close()" >
-        <strong>Atención!</strong> su alerta fué enviada
-      </ngb-alert>
+    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal, $event)" [(ngModel)]="msgVal"
+      size="22" maxlength="30" />
+    <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
+      <strong>Atención!</strong> su alerta fué enviada
+    </ngb-alert>
   </div>
-  <div *ngFor="let item of items | async" style="width: 20rem;" >
+  <div *ngFor="let item of items | async" style="width: 20rem;">
     <a alt="Alerta" (click)="onSelect(item.id)">
-      <img src="assets/icon/alertasUpdate.svg">
-    {{item.texto}} <button (click)="deleteDoc(item.id)">eliminar</button>
+      <div>
+        <img src="assets/icon/alertasUpdate.svg"><button (click)="deleteDoc(item.id)">eliminar</button>
+        <div>
+          {{item.texto}} 
+          <img src={{item.foto}} style="max-height: 50px;">
+        </div>
+      </div>
     </a>
   </div>
 </div>
