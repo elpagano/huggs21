@@ -1,7 +1,6 @@
 <div>
-    <div >
+    <div>
         <div class="col-md-6 form-group">
-
             <label>Usuario </label>
             <input type="text" class="form-control" [(ngModel)]="opcionesArr.nomUsuer" />
             <label>Email </label>
@@ -12,13 +11,12 @@
             <input type="text" class="form-control" [(ngModel)]="opcionesArr.apellido" />
             <label>Rol principal </label>
             <form [formGroup]="form">
-                <select formControlName="state">
-                  <option *ngFor="let rol of roles" [ngValue]="rol">
-                    {{ rol.name }}
-                  </option>
+                <select class='form-control' [(ngModel)]='opcionesArr.rol' formControlName="state">
+                    <option *ngFor="let rol of roles" [ngValue]="rol.abbrev">
+                        {{ rol.name }}
+                    </option>
                 </select>
-              </form>
-
+            </form>
             <label>Lugar de trabajo </label>
             <input type="text" class="form-control" [(ngModel)]="opcionesArr.lugar" />
             <label>Horarios disponibles </label>

@@ -10,7 +10,7 @@ import { BienvenidaComponent } from './bienvenida/bienvenida.component';
 import { LoginComponent } from './login/login.component';
 
 import { InicioComponent } from './global/inicio/inicio.component';
-import { OpcionesComponent } from './global/opciones/opciones.component';
+import { OpcionesComponent } from './opciones/opciones.component';
 import { TomaDatosComponent } from './toma-datos/toma-datos.component';
 import { DocumentacionComponent } from './documentacion/documentacion.component';
 import { GrupoComponent } from './grupo/grupo.component';

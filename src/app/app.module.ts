@@ -20,7 +20,7 @@ import { BienvenidaComponent } from './bienvenida/bienvenida.component';
 import { MenuComponent } from './global/menu/menu.component';
 import { InicioComponent } from './global/inicio/inicio.component';
 import { UsuariosComponent } from './global/usuarios/usuarios.component';
-import { OpcionesComponent } from './global/opciones/opciones.component';
+import { OpcionesComponent } from './opciones/opciones.component';
 import { UserProfileComponent } from './global/user-profile/user-profile.component';
 import { DirectivesComponent } from './commons/directives/directives.component';
 import { InterfacesComponent } from './commons/interfaces/interfaces.component';
