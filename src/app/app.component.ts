@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
  
 @Component({
   selector: 'app-root',
@@ -10,17 +9,10 @@ import firebase from 'firebase/compat/app';
 })
 export class AppComponent {
   title = 'huggs';
-
+  showLogin = '';
+  
   constructor( public router: Router, public auth: AngularFireAuth, ) 
   {
-
-  }
-  login() {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-
-  }
-  logout() {
-    this.auth.signOut();
   }
 
 }

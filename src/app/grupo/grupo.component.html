@@ -14,25 +14,29 @@
       [(ngModel)]="msgValGrup" maxlength="30" />
   </div>
   <div>
-    <nav>
-      <ul>
-        <li *ngFor="let grupo of grupos | async" (click)="onSelect(selected)">
+    <ul>
+      <li *ngFor="let grupo of grupos | async">
 
-          <a (click)="Delete(grupo.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
-            &nbsp; {{ grupo.nameGroup }}
-            
+        <a (click)="Delete(grupo.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
+        &nbsp; {{ grupo.nameGroup }}
+        <!-- 
           <a [routerLink]="['/adminUsuario']" [queryParams]="{key: grupo.id}" class="menuLink">
             &nbsp; <img src="assets/icon/download.svg" class="menuImg"> &nbsp;
             Descargar Datos.
           </a>
-
-          <a [routerLink]="['/adminUsuario']" [queryParams]="{key: grupo.id}" class="menuLink">
-            &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
-            Agregar Usuarios.
-          </a>
-
-        </li>
-      </ul>
-    </nav>
+ -->
+        <a (click)="selectGrupo(grupo.id)" class="menuLink">
+          &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
+          Agregar Usuarios.
+        </a>
+      </li>
+    </ul>
   </div>
+  <div *ngIf="agregarUsuaios" >
+    <input type="text" [(ngModel)]="msgUsuario"/>
+    <button type="button" class="btn btn-info" (click)="buscarUsuario(msgUsuario)">
+      Buscar Usuario
+    </button>
+  </div>
+
 </div>

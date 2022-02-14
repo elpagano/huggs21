@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Groups } from "./grupo";
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -17,8 +18,18 @@ export class GrupoComponent implements OnInit {
   private grupoCollection: AngularFirestoreCollection<Groups>;
   auth = getAuth();
   msgValGrup = '';
+  msgUsuario = '';
   msgCreado = false;
   selected = '';
+  agregarUsuaios = false;
+  find = true;
+
+  //texto = new FormControl('');
+  /* grupoArr = {
+    creator_uid: this.auth.currentUser?.uid || '',
+    nameGroup: '', estado: '', fecha: '', users: '',
+  } */
+
   constructor(
     private readonly afs: AngularFirestore,
   ) {
@@ -65,8 +76,30 @@ export class GrupoComponent implements OnInit {
     }
   }
 
-  onSelect(dato: string): void {
-    this.selected = dato;
+  selectGrupo(id: string): void {    
+    this.agregarUsuaios = true;
+
+    this.selected = id;
   }
 
+  buscarUsuario(msgUsuario: string){
+    console.log('buscarUsuario', msgUsuario)
+
+    this.agregarUsuaios = true;
+
+    const creator_uid = this.auth.currentUser?.uid || '';
+    let expensesCollection = this.afs.collection('/grupos',
+      ref => ref.where('creator_uid', '==', creator_uid));
+
+    expensesCollection.valueChanges().subscribe(
+      (data: any) => {
+        console.log('data', data)
+        if (data.length > 0) {
+          this.find = true;
+        } else {
+          this.find = false;
+        }
+      }
+      );
+  }
 }
