@@ -1,1 +1,38 @@
-<p>grupo works!</p>
+<div style="height: auto; align-self: center; background: #eeeeee; border-right: 3px solid rgb(6, 2, 132);">
+  <div>
+    Grupos
+  </div>
+  <div>
+    Aquí podrá generar grupos de trabajo por cada paciente.
+  </div>
+  <ngb-alert *ngIf="msgCreado" type="primary" (closed)="close()">
+    <strong>Atención!</strong> su grupo fué creado
+  </ngb-alert>
+  <div>
+    <button type="button" class="btn btn-info" (click)="addGroup(msgValGrup)">Nuevo Grupo</button>
+    <input type="text" placeholder="Nombre grupo max 30 caracteres" (keyup.enter)="addGroup(msgValGrup)"
+      [(ngModel)]="msgValGrup" maxlength="30" />
+  </div>
+  <div>
+    <nav>
+      <ul>
+        <li *ngFor="let grupo of grupos | async" (click)="onSelect(selected)">
+
+          <a (click)="Delete(grupo.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
+            &nbsp; {{ grupo.nameGroup }}
+            
+          <a [routerLink]="['/adminUsuario']" [queryParams]="{key: grupo.id}" class="menuLink">
+            &nbsp; <img src="assets/icon/download.svg" class="menuImg"> &nbsp;
+            Descargar Datos.
+          </a>
+
+          <a [routerLink]="['/adminUsuario']" [queryParams]="{key: grupo.id}" class="menuLink">
+            &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
+            Agregar Usuarios.
+          </a>
+
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

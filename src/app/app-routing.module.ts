@@ -6,10 +6,9 @@ import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectL
 import { NotfoundComponent } from './global/notfound/notfound.component';
 import { AlertasComponent } from './alertas/alertas.component';
 import { AlertasNotifComponent } from './alertas/alertas-notif/alertas-notif.component';
-import { BienvenidaComponent } from './bienvenida/bienvenida.component';
 import { LoginComponent } from './login/login.component';
 
-import { InicioComponent } from './global/inicio/inicio.component';
+import { InicioComponent } from './inicio/inicio.component';
 import { OpcionesComponent } from './opciones/opciones.component';
 import { TomaDatosComponent } from './toma-datos/toma-datos.component';
 import { DocumentacionComponent } from './documentacion/documentacion.component';

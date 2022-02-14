@@ -16,9 +16,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertasComponent } from './alertas/alertas.component';
 import { AlertasNotifComponent } from './alertas/alertas-notif/alertas-notif.component';
-import { BienvenidaComponent } from './bienvenida/bienvenida.component';
 import { MenuComponent } from './global/menu/menu.component';
-import { InicioComponent } from './global/inicio/inicio.component';
+import { InicioComponent } from './inicio/inicio.component';
 import { UsuariosComponent } from './global/usuarios/usuarios.component';
 import { OpcionesComponent } from './opciones/opciones.component';
 import { UserProfileComponent } from './global/user-profile/user-profile.component';
@@ -44,7 +43,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms"; //this to use
     AppComponent,
     AlertasComponent,
     AlertasNotifComponent,
-    BienvenidaComponent,
     MenuComponent,
     InicioComponent,
     UsuariosComponent,
