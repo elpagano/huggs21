@@ -18,7 +18,7 @@ import { AlertasComponent } from './alertas/alertas.component';
 import { AlertasNotifComponent } from './alertas/alertas-notif/alertas-notif.component';
 import { MenuComponent } from './global/menu/menu.component';
 import { InicioComponent } from './inicio/inicio.component';
-import { UsuariosComponent } from './global/usuarios/usuarios.component';
+import { UsersComponent } from './global/users/users.component';
 import { OpcionesComponent } from './opciones/opciones.component';
 import { UserProfileComponent } from './global/user-profile/user-profile.component';
 import { DirectivesComponent } from './commons/directives/directives.component';
@@ -45,7 +45,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms"; //this to use
     AlertasNotifComponent,
     MenuComponent,
     InicioComponent,
-    UsuariosComponent,
+    UsersComponent,
     OpcionesComponent,
     UserProfileComponent,
     DirectivesComponent,

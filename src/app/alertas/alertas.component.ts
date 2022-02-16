@@ -39,7 +39,6 @@ export class AlertasComponent {
 
 
   addItem(texto: string, event: Event) {
-    const auth = getAuth();
 
     this.alerta = true;
 
@@ -47,11 +46,11 @@ export class AlertasComponent {
     const grupo_id = 'aa';
     const lugar = 'aa';
     const estado = "1";
-    let userId = auth.currentUser?.uid || '';
+    let userId = this.auth.currentUser?.uid || '';
     const foto =  this.auth.currentUser?.photoURL || '';
     const fecha =  Date()
-    console.log("auth", auth.currentUser?.displayName)
-    console.log("auth", typeof (auth.currentUser?.uid.toString()))
+    console.log("auth", this.auth.currentUser?.displayName)
+    console.log("auth", typeof (this.auth.currentUser?.uid.toString()))
     // Persist a document id
     const item: Alert = { id, userId, grupo_id, lugar, texto, estado, foto, fecha };
     this.itemsCollection.doc(id).set(item);

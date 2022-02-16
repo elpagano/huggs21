@@ -52,13 +52,13 @@ export class OpcionesComponent implements OnInit {
 
   getOpciones() {
 
-    const uId = this.auth.currentUser?.uid || '';
+    const email = this.auth.currentUser?.email || '';
     let expensesCollection = this.afs.collection('/options',
-      ref => ref.where('userId', '==', uId));
+      ref => ref.where('email', '==', email));
 
     expensesCollection.valueChanges().subscribe(
       (data: any) => {
-        console.log('data', data)
+        //console.log('data', data)
         if (data.length > 0) {
           this.opcionesArr = data[0];
           this.find = true;

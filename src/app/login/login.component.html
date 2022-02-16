@@ -1,6 +1,6 @@
 <div *ngIf="auth.user | async as user; else showLogin" >
     <img *ngIf="router.url != '/'" src="assets/logo.svg" style="width: 7rem;">
-    Hola {{ user.displayName }}!
+    Hola {{ user.displayName }}
     <label class="btn btn-primary">
       <input (click)="logout()" type="radio" name="options" id="option1"> Salir
     </label>

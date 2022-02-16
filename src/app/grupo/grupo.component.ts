@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Groups } from "./grupo";
 import { FormControl } from '@angular/forms';
-
+import { Opciones } from "../opciones/opcionesInt";
 
 @Component({
   selector: 'app-grupo',
@@ -13,9 +13,12 @@ import { FormControl } from '@angular/forms';
 })
 
 export class GrupoComponent implements OnInit {
-  readonly pathAlertas = 'grupos';
-  grupos: Observable<Groups[]>;
+  readonly pathAlertas = 'groups';
+  groups: Observable<Groups[]>;
   private grupoCollection: AngularFirestoreCollection<Groups>;
+  //busco en options porque es donde estan todos los datos del usuario completos.
+  options: Observable<Opciones[]>;
+  private optionsCollection: AngularFirestoreCollection<Opciones>;
   auth = getAuth();
   msgValGrup = '';
   msgUsuario = '';
@@ -23,6 +26,9 @@ export class GrupoComponent implements OnInit {
   selected = '';
   agregarUsuaios = false;
   find = true;
+  arrUsers = [
+    { nomUsuer: '' }
+  ];
 
   //texto = new FormControl('');
   /* grupoArr = {
@@ -33,18 +39,15 @@ export class GrupoComponent implements OnInit {
   constructor(
     private readonly afs: AngularFirestore,
   ) {
-    this.grupoCollection = afs.collection<Groups>('grupos');
-    this.grupos = this.grupoCollection.valueChanges({ idField: 'grupos' });
+    this.grupoCollection = afs.collection<Groups>('groups');
+    this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
+    this.optionsCollection = afs.collection<Opciones>('options');
+    this.options = this.optionsCollection.valueChanges({ idField: 'options' });
   }
 
   ngOnInit(): void {
-
   }
 
-/*   onSelect(dato: string): void {
-    this.selectedAlerta = dato;
-  }
- */
   close() {
     this.msgCreado = false;
   }
@@ -70,7 +73,7 @@ export class GrupoComponent implements OnInit {
 
   Delete(id: string) {
     try {
-      this.afs.collection('grupos').doc(id).delete();
+      this.afs.collection('groups').doc(id).delete();
     } catch (error) {
       console.log("deleteDoc", error)
     }
@@ -78,28 +81,42 @@ export class GrupoComponent implements OnInit {
 
   selectGrupo(id: string): void {    
     this.agregarUsuaios = true;
-
     this.selected = id;
   }
 
   buscarUsuario(msgUsuario: string){
-    console.log('buscarUsuario', msgUsuario)
+    console.log("buscarUsuario", msgUsuario)
 
     this.agregarUsuaios = true;
+    let expensesCollection = this.afs.collection('/options',
+      ref => ref.where('nomUsuer', '==', msgUsuario));
 
-    const creator_uid = this.auth.currentUser?.uid || '';
-    let expensesCollection = this.afs.collection('/grupos',
-      ref => ref.where('creator_uid', '==', creator_uid));
-
-    expensesCollection.valueChanges().subscribe(
-      (data: any) => {
-        console.log('data', data)
+/*       expensesCollection.valueChanges().subscribe((data: any) => {
         if (data.length > 0) {
           this.find = true;
         } else {
           this.find = false;
         }
-      }
-      );
+      }); */
+
+      expensesCollection.snapshotChanges().subscribe(actions => {
+        actions.forEach(action => {
+          const data = action.payload.doc.data() as Opciones;
+          console.log("nomUsuer", data.nomUsuer)
+          this.arrUsers = [{ nomUsuer: data.nomUsuer }];
+        });
+      });
+      console.log("arrUsers", this.arrUsers)
+
+  }  
+
+  clear() {
+    this.arrUsers = [{ nomUsuer: '' }];
   }
+
+  agregarUsuario(id: string): void {    
+    this.agregarUsuaios = true;
+    this.selected = id;
+  }
+
 }
