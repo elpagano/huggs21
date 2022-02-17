@@ -5,7 +5,7 @@
   <div>
     Aquí podrá generar grupos de trabajo por cada paciente.
   </div>
-  <ngb-alert *ngIf="msgCreado" type="primary" (closed)="close()">
+  <ngb-alert *ngIf="msgCreado" type="primary" (closed)="closemsgGroup()">
     <strong>Atención!</strong> su grupo fué creado
   </ngb-alert>
   <div>
@@ -17,9 +17,9 @@
   <div>
     <ul>
       <li *ngFor="let group of groups | async">
-        <a (click)="Delete(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
+        <a (click)="deleteGroup(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
         &nbsp; {{ group.nameGroup }}
-        <a (click)="selectGrupo(group.id)" class="menuLink">
+        <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
           &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
           Agregar Usuarios.
         </a>
@@ -27,15 +27,23 @@
     </ul>
   </div>
 
-  <div *ngIf="agregarUsuaios" >
+  <div *ngIf="selectAssUsers" >
+    <div>
+      Grupo: {{selectedGrupNom}}
+    </div>
+
     <input type="text" [(ngModel)]="msgUsuario"/>
-    <button type="button" class="btn btn-info" (click)="buscarUsuario(msgUsuario)">
+    <button type="button" class="btn btn-info" (click)="searchUser(msgUsuario)">
       Buscar Usuario
     </button>
     <ul>
-      <li *ngFor="let user of arrUsers">{{user.nomUsuer}}</li>
+      <li *ngFor="let user of arrUsers ">
+        {{user.nombre}}
+        <button type="button" class="btn btn-info" (click)="addUserGrupo(user.nombre!)">
+          Agregar al grupo
+        </button>
+      </li>
     </ul>
     
   </div>
-
 </div>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Groups } from "./grupo";
 import { FormControl } from '@angular/forms';
 import { Opciones } from "../opciones/opcionesInt";
+import { Usuario } from "../login/user";
 
 @Component({
   selector: 'app-grupo',
@@ -17,18 +18,18 @@ export class GrupoComponent implements OnInit {
   groups: Observable<Groups[]>;
   private grupoCollection: AngularFirestoreCollection<Groups>;
   //busco en options porque es donde estan todos los datos del usuario completos.
-  options: Observable<Opciones[]>;
-  private optionsCollection: AngularFirestoreCollection<Opciones>;
+  //options: Observable<Opciones[]>;
+  //private optionsCollection: AngularFirestoreCollection<Opciones>;
   auth = getAuth();
   msgValGrup = '';
   msgUsuario = '';
   msgCreado = false;
-  selected = '';
-  agregarUsuaios = false;
-  find = true;
-  arrUsers = [
-    { nomUsuer: '' }
-  ];
+  selectedGrupid = '';
+  selectedGrupNom = '';
+  selectAssUsers = false;
+  arrUsers = [{ nombre: '' }, { nomLowercase: '' }];
+  
+  users = [];
 
   //texto = new FormControl('');
   /* grupoArr = {
@@ -41,14 +42,15 @@ export class GrupoComponent implements OnInit {
   ) {
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
-    this.optionsCollection = afs.collection<Opciones>('options');
-    this.options = this.optionsCollection.valueChanges({ idField: 'options' });
+    //this.optionsCollection = afs.collection<Opciones>('users');
+    //this.options = this.optionsCollection.valueChanges({ idField: 'users' });
   }
 
   ngOnInit(): void {
+    this.clearUsuarios();
   }
 
-  close() {
+  closemsgGroup() {
     this.msgCreado = false;
   }
 
@@ -60,18 +62,15 @@ export class GrupoComponent implements OnInit {
     const id = this.afs.createId();
     let creator_uid = auth.currentUser?.uid || '';
     const nameGroup = texto;
-    const users = [0];
+    const users = this.arrUsers;
     const estado = "1";
     const fecha = Date()
-    console.log("auth", auth.currentUser?.displayName)
-    console.log("texto", texto)
-    // Persist a document id
+
     const item: Groups = { id, creator_uid, nameGroup, estado, fecha, users };
     this.grupoCollection.doc(id).set(item);
-
   }
 
-  Delete(id: string) {
+  deleteGroup(id: string) {
     try {
       this.afs.collection('groups').doc(id).delete();
     } catch (error) {
@@ -79,44 +78,56 @@ export class GrupoComponent implements OnInit {
     }
   }
 
-  selectGrupo(id: string): void {    
-    this.agregarUsuaios = true;
-    this.selected = id;
+  //selecciono el grupo
+  selectGroup(id: string, nameGroup: string): void {
+    this.selectAssUsers = true;
+    this.selectedGrupid = id;
+    this.selectedGrupNom = nameGroup;
   }
 
-  buscarUsuario(msgUsuario: string){
-    console.log("buscarUsuario", msgUsuario)
+  searchUser(msgUsuario: string) {
+    this.arrUsers = [];
+    let msgU = msgUsuario.toLowerCase()
+    this.selectAssUsers = true;
+    let expensesCollection = this.afs.collection('/users',
+      ref => ref.orderBy('nomLowercase').startAt(msgU).endAt( msgU+ '~'));
 
-    this.agregarUsuaios = true;
-    let expensesCollection = this.afs.collection('/options',
-      ref => ref.where('nomUsuer', '==', msgUsuario));
 
-/*       expensesCollection.valueChanges().subscribe((data: any) => {
-        if (data.length > 0) {
-          this.find = true;
-        } else {
-          this.find = false;
-        }
-      }); */
+      this.afs.collection<Usuario>('users').snapshotChanges()
+      .pipe(map(actions => {
+       return actions.map(action => {
+        const data = action.payload.doc.data() as Usuario;
+        const _id = action.payload.doc.id;
+        this.arrUsers.push( { nombre: data.nombre },
+          { nomLowercase: data.nomLowercase });
+        return { _id, ...data };
+       });
+      }));
 
-      expensesCollection.snapshotChanges().subscribe(actions => {
-        actions.forEach(action => {
-          const data = action.payload.doc.data() as Opciones;
-          console.log("nomUsuer", data.nomUsuer)
-          this.arrUsers = [{ nomUsuer: data.nomUsuer }];
-        });
+    expensesCollection.snapshotChanges().subscribe(actions => {
+      actions.forEach(action => {
+        const data = action.payload.doc.data() as Usuario;
+        this.arrUsers.push( { nombre: data.nombre },
+                            { nomLowercase: data.nomLowercase });
+
+        console.log("actions",actions);
+
+        // this.arrUsers = this.arrUsers.filter(function(dato){ return dato != undefined }); 
+
       });
-      console.log("arrUsers", this.arrUsers)
+    });
+    
 
-  }  
-
-  clear() {
-    this.arrUsers = [{ nomUsuer: '' }];
   }
 
-  agregarUsuario(id: string): void {    
-    this.agregarUsuaios = true;
-    this.selected = id;
+  clearUsuarios() {
+    this.arrUsers = [];
+  }
+
+  addUserGrupo(nombre: string): void {
+    this.selectAssUsers = true;
+    this.selectedGrupid = nombre;
+    
   }
 
 }

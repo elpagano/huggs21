@@ -105,11 +105,12 @@ export class OpcionesComponent implements OnInit {
     let titulo = this.opcionesArr.titulo;
     let facultad = this.opcionesArr.facultad;
     let capasitaciones = this.opcionesArr.capasitaciones;
+    let nomLowercase = this.opcionesArr.nombre.toLowerCase();
 
     const colecciones: Opciones = {
       id, nomUsuer, email, userId,
       foto, nombre, apellido, rol, lugar, horarioydia, lenguaje,
-      titulo, facultad, capasitaciones
+      titulo, facultad, capasitaciones, nomLowercase
     };
 
     return colecciones;

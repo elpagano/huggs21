@@ -13,4 +13,5 @@ export interface Opciones {
   titulo: string;
   facultad: string;
   capasitaciones: string;
+  nomLowercase: string;
 }

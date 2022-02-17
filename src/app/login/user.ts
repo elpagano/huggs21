@@ -6,4 +6,5 @@ export interface Usuario {
     fecha: string;
     email: string;
     nombre: string;
+    nomLowercase: string;
 } 

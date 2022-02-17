@@ -50,8 +50,12 @@ export class LoginComponent {
     const foto = auth.currentUser?.photoURL || '';
     const email = auth.currentUser?.email || '';
     const nombre = auth.currentUser?.displayName || '';
+    let nomLowercase = (auth.currentUser?.displayName || '').toLowerCase();
+
+    console.log("nomLowercase", nomLowercase)
+
     const fecha = Date()
-    const item: Usuario = { id, userId, estado, foto, fecha, email, nombre };
+    const item: Usuario = { id, userId, estado, foto, fecha, email, nombre, nomLowercase };
     this.itemsCollection.doc(id).set(item);
   }
 }
