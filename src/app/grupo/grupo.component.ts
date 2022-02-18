@@ -75,6 +75,8 @@ export class GrupoComponent implements OnInit {
     this.selectAssUsers = true;
     this.selectedGrupid = id;
     this.selectedGrupNom = nameGroup;
+    this.clearUsuarios();
+
   }
 
 
@@ -96,21 +98,20 @@ export class GrupoComponent implements OnInit {
 
   clearUsuarios() {
     this.arrUsers = [];
+    this.selectedUsers = [];
   }
 
   addUserGrupo(id: string, nombre: string, nomLowercase: string): void {
-    this.selectAssUsers = true;
-    let arrTemp: Array<{id: string, nombre: string, nomLowercase: string}> = []; 
-    arrTemp.push({id: id, nombre: nombre, nomLowercase: nomLowercase});
-
-    this.selectedUsers = arrTemp.filter((item,index)=>{
-      return arrTemp.indexOf(item) === index;
-    })
-
-    //this.selectedUsers = arrTemp.filter(item => item.nombre !== nombre);
-
-    console.log("selectedUsers", this.selectedUsers)
-
+    this.selectedUsers.push({id: id, nombre: nombre, nomLowercase: nomLowercase});
+    this.selectedUsers = [...new Map(this.selectedUsers.map(item => [item.id, item])).values()]
   }
 
+  deleteUser(id: string) {
+    try {
+      this.selectedUsers.splice( this.selectedUsers.findIndex(item => item.id === id), 1);
+    } catch (error) {
+      console.log("deleteDoc", error)
+    }
+  }
 }
+

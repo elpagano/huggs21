@@ -1,4 +1,4 @@
-<div style="height: auto; align-self: center; background: #eeeeee; border-right: 3px solid rgb(6, 2, 132);">
+<div >
   <div>
     Grupos
   </div>
@@ -18,7 +18,6 @@
     <ul>
       <li *ngFor="let group of groups | async">
         <a (click)="deleteGroup(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
-
         <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
           &nbsp; {{ group.nameGroup }} &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
           Agregar Usuarios.
@@ -35,6 +34,7 @@
     <ul>
       <li *ngFor=" let user of selectedUsers ">
         {{user.nombre}}
+        <a (click)="deleteUser(user.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
       </li>
     </ul>
     <input type="text" [(ngModel)]="msgUsuario" />
