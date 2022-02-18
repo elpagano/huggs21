@@ -27,23 +27,15 @@ export class GrupoComponent implements OnInit {
   selectedGrupid = '';
   selectedGrupNom = '';
   selectAssUsers = false;
-  arrUsers = [{ nombre: '' }, { nomLowercase: '' }];
-  
-  users = [];
+  arrUsers: Array<{id: string, nombre: string, nomLowercase: string}> = []; 
 
-  //texto = new FormControl('');
-  /* grupoArr = {
-    creator_uid: this.auth.currentUser?.uid || '',
-    nameGroup: '', estado: '', fecha: '', users: '',
-  } */
+  selectedUsers: Array<{ id: string, nombre: string, nomLowercase:string}> = []; 
 
   constructor(
     private readonly afs: AngularFirestore,
   ) {
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
-    //this.optionsCollection = afs.collection<Opciones>('users');
-    //this.options = this.optionsCollection.valueChanges({ idField: 'users' });
   }
 
   ngOnInit(): void {
@@ -62,7 +54,7 @@ export class GrupoComponent implements OnInit {
     const id = this.afs.createId();
     let creator_uid = auth.currentUser?.uid || '';
     const nameGroup = texto;
-    const users = this.arrUsers;
+    const users = this.selectedUsers;
     const estado = "1";
     const fecha = Date()
 
@@ -85,49 +77,40 @@ export class GrupoComponent implements OnInit {
     this.selectedGrupNom = nameGroup;
   }
 
+
   searchUser(msgUsuario: string) {
-    this.arrUsers = [];
     let msgU = msgUsuario.toLowerCase()
     this.selectAssUsers = true;
     let expensesCollection = this.afs.collection('/users',
-      ref => ref.orderBy('nomLowercase').startAt(msgU).endAt( msgU+ '~'));
+      ref => ref.orderBy('nomLowercase').startAt(msgU).endAt(msgU + '~'));
 
-
-      this.afs.collection<Usuario>('users').snapshotChanges()
-      .pipe(map(actions => {
-       return actions.map(action => {
-        const data = action.payload.doc.data() as Usuario;
-        const _id = action.payload.doc.id;
-        this.arrUsers.push( { nombre: data.nombre },
-          { nomLowercase: data.nomLowercase });
-        return { _id, ...data };
-       });
-      }));
+    this.arrUsers = [];
 
     expensesCollection.snapshotChanges().subscribe(actions => {
       actions.forEach(action => {
-        const data = action.payload.doc.data() as Usuario;
-        this.arrUsers.push( { nombre: data.nombre },
-                            { nomLowercase: data.nomLowercase });
-
-        console.log("actions",actions);
-
-        // this.arrUsers = this.arrUsers.filter(function(dato){ return dato != undefined }); 
-
+        const data = action.payload.doc.data() as Usuario;  
+        this.arrUsers.push({id: data.id, nombre: data.nombre, nomLowercase: data.nomLowercase});
       });
     });
-    
-
   }
 
   clearUsuarios() {
     this.arrUsers = [];
   }
 
-  addUserGrupo(nombre: string): void {
+  addUserGrupo(id: string, nombre: string, nomLowercase: string): void {
     this.selectAssUsers = true;
-    this.selectedGrupid = nombre;
-    
+    let arrTemp: Array<{id: string, nombre: string, nomLowercase: string}> = []; 
+    arrTemp.push({id: id, nombre: nombre, nomLowercase: nomLowercase});
+
+    this.selectedUsers = arrTemp.filter((item,index)=>{
+      return arrTemp.indexOf(item) === index;
+    })
+
+    //this.selectedUsers = arrTemp.filter(item => item.nombre !== nombre);
+
+    console.log("selectedUsers", this.selectedUsers)
+
   }
 
 }

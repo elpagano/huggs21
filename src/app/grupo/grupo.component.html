@@ -18,32 +18,37 @@
     <ul>
       <li *ngFor="let group of groups | async">
         <a (click)="deleteGroup(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
-        &nbsp; {{ group.nameGroup }}
+
         <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
-          &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
+          &nbsp; {{ group.nameGroup }} &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
           Agregar Usuarios.
         </a>
       </li>
     </ul>
   </div>
 
-  <div *ngIf="selectAssUsers" >
+  <div *ngIf="selectAssUsers">
     <div>
       Grupo: {{selectedGrupNom}}
     </div>
-
-    <input type="text" [(ngModel)]="msgUsuario"/>
+    Usuarios activos del grupo
+    <ul>
+      <li *ngFor=" let user of selectedUsers ">
+        {{user.nombre}}
+      </li>
+    </ul>
+    <input type="text" [(ngModel)]="msgUsuario" />
     <button type="button" class="btn btn-info" (click)="searchUser(msgUsuario)">
       Buscar Usuario
     </button>
     <ul>
-      <li *ngFor="let user of arrUsers ">
-        {{user.nombre}}
-        <button type="button" class="btn btn-info" (click)="addUserGrupo(user.nombre!)">
-          Agregar al grupo
-        </button>
+      <li *ngFor=" let user of arrUsers ">
+        <a (click)="addUserGrupo(user.id!, user.nombre, user.nomLowercase)" class="menuLink">
+          &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
+          Agregar al grupo &nbsp; {{user.nombre}}
+        </a>
       </li>
     </ul>
-    
+
   </div>
 </div>
