@@ -1,6 +1,9 @@
-<div >
-  <div>
-    Grupos
+<div  class="container-fluid" >
+  <div class="row" >
+    <div class="col-12">
+      Grupos
+    </div>
+
   </div>
   <div>
     Aquí podrá generar grupos de trabajo por cada paciente.
@@ -43,7 +46,7 @@
     </button>
     <ul>
       <li *ngFor=" let user of arrUsers ">
-        <a (click)="addUserGrupo(user.id!, user.nombre, user.nomLowercase)" class="menuLink">
+        <a (click)="addArrUserGrupo(user.id!, user.nombre, user.nomLowercase)" class="menuLink">
           &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
           Agregar al grupo &nbsp; {{user.nombre}}
         </a>

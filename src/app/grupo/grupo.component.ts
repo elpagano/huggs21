@@ -27,9 +27,9 @@ export class GrupoComponent implements OnInit {
   selectedGrupid = '';
   selectedGrupNom = '';
   selectAssUsers = false;
-  arrUsers: Array<{id: string, nombre: string, nomLowercase: string}> = []; 
+  arrUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
 
-  selectedUsers: Array<{ id: string, nombre: string, nomLowercase:string}> = []; 
+  selectedUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
 
   constructor(
     private readonly afs: AngularFirestore,
@@ -72,11 +72,11 @@ export class GrupoComponent implements OnInit {
 
   //selecciono el grupo
   selectGroup(id: string, nameGroup: string): void {
+    this.clearUsuarios();
     this.selectAssUsers = true;
     this.selectedGrupid = id;
     this.selectedGrupNom = nameGroup;
-    this.clearUsuarios();
-
+    this.getUsers(id);
   }
 
 
@@ -90,8 +90,8 @@ export class GrupoComponent implements OnInit {
 
     expensesCollection.snapshotChanges().subscribe(actions => {
       actions.forEach(action => {
-        const data = action.payload.doc.data() as Usuario;  
-        this.arrUsers.push({id: data.id, nombre: data.nombre, nomLowercase: data.nomLowercase});
+        const data = action.payload.doc.data() as Usuario;
+        this.arrUsers.push({ id: data.id, nombre: data.nombre, nomLowercase: data.nomLowercase });
       });
     });
   }
@@ -101,17 +101,42 @@ export class GrupoComponent implements OnInit {
     this.selectedUsers = [];
   }
 
-  addUserGrupo(id: string, nombre: string, nomLowercase: string): void {
-    this.selectedUsers.push({id: id, nombre: nombre, nomLowercase: nomLowercase});
+  addArrUserGrupo(id: string, nombre: string, nomLowercase: string): void {
+    const auth = getAuth();
+    this.selectedUsers.push({ id: id, nombre: nombre, nomLowercase: nomLowercase });
     this.selectedUsers = [...new Map(this.selectedUsers.map(item => [item.id, item])).values()]
+
+    const item: Groups = { id: this.selectedGrupid, creator_uid: auth.currentUser?.uid || '', nameGroup: this.selectedGrupNom, estado: "1", fecha: Date(), users: this.selectedUsers };
+    this.grupoCollection.doc(this.selectedGrupid).set(item);
   }
 
   deleteUser(id: string) {
     try {
-      this.selectedUsers.splice( this.selectedUsers.findIndex(item => item.id === id), 1);
+      this.selectedUsers.splice(this.selectedUsers.findIndex(item => item.id === id), 1);
+      const item: Groups = { id: this.selectedGrupid, creator_uid: '', nameGroup: this.selectedGrupNom, estado: "1", fecha: Date(), users: this.selectedUsers };
+      this.grupoCollection.doc(this.selectedGrupid).set(item);
+
     } catch (error) {
       console.log("deleteDoc", error)
     }
+  }
+
+  getUsers(id: string) {
+
+    let expensesCollection = this.afs.collection('/groups',
+      ref => ref.where('id', '==', id));
+
+    expensesCollection.snapshotChanges().subscribe(actions => {
+      actions.forEach(action => {
+        const data = action.payload.doc.data() as Groups;
+        //limpio si el array de usuarios está iniciado con 0
+        if (data.users[0] === 0) {
+          this.selectedUsers = [];
+        } else {
+        this.selectedUsers = data.users;
+        }
+      });
+    });
   }
 }
 

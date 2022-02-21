@@ -9,7 +9,7 @@ export class MenuComponent{
 
   constructor() { }
 selected = '';
-  items = [
+  alertas = [
     {text: 'Inicio',        url:'/',              icon: './assets/icon/home.svg'},
     {text: 'Grupos',        url:'/grupos',        icon: './assets/icon/grupos.svg'},
     {text: 'Programa',      url:'/programacion',  icon: './assets/icon/programacion.svg'/*disabled: true*/},

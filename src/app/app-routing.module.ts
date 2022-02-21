@@ -20,7 +20,7 @@ import { PermisosComponent } from './permisos/permisos.component';
 import { ProgramacionComponent } from './programacion/programacion.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectLoggedInToItems = () => redirectLoggedInTo(['items']);
+const redirectLoggedInToItems = () => redirectLoggedInTo(['alertas']);
 //const belongsToAccount = (next) => hasCustomClaim(`account-${next.params.id}`);
 
 const routes: Routes = [

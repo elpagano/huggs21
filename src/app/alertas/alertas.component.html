@@ -1,4 +1,4 @@
-<div >
+<div>
   <div style="width: 20rem;">
     <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal, $event)">
       <img src="assets/icon/alertasSend.svg">
@@ -9,12 +9,16 @@
       <strong>Atención!</strong> su alerta fué enviada
     </ngb-alert>
   </div>
-  <div *ngFor="let item of items | async" style="width: 20rem;">
+  <div *ngFor="let item of alertas | async" style="width: 20rem;">
     <a alt="Alerta" (click)="onSelect(item.id)">
       <div>
-        <img src="assets/icon/alertasUpdate.svg"><button (click)="deleteDoc(item.id)">eliminar</button>
+        <img src="assets/icon/alertasUpdate.svg">
+        <button (click)="deleteDoc(item.id)">Eliminar</button>
+        <button (click)="rechazarAlerta(item.id)">Rechazar</button>
+        <button (click)="updateAlerta(item.id, msgVal)">Actualizar</button>
         <div>
-          {{item.texto}} 
+          {{item.texto}}
+          Estado{{item.estado}}
           <img src={{item.foto}} style="max-height: 50px;">
         </div>
       </div>
