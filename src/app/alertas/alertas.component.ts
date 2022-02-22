@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { delay, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Router } from "@angular/router";
 
 import { Alert } from "./alertas"
+import { AlertaService } from "../services/alerta.service";
 
 @Component({
   selector: 'app-alertas',
@@ -14,8 +15,13 @@ import { Alert } from "./alertas"
 })
 
 export class AlertasComponent {
+  selectAlert?: Alert;
+  alert: Alert[] = [];
+
+
   alertas: Observable<Alert[]>;
   auth = getAuth();
+
 
   private alertasCollection: AngularFirestoreCollection<Alert>;
   texto = new FormControl('');
@@ -23,9 +29,9 @@ export class AlertasComponent {
   alerta = false;
   selectedAlerta = ''; //un valor de entrada para el input de autenticación
 
-  alertasArr = { userId: '', grupo_id: '', lugar: '', texto: '', estado: '', foto: '', fecha: '' }
+  alertasArr: Alert = { id: '', userId: '', grupo_id: '', lugar: '', texto: '', estado: '', foto: '', fecha: '' }
 
-  constructor(private readonly afs: AngularFirestore, public router: Router) {
+  constructor(private AlertaService: AlertaService, private readonly afs: AngularFirestore, public router: Router) {
     if (router.url == '/alertas') {
       this.alertasCollection = afs.collection<Alert>('alertas');
     } else {
@@ -34,12 +40,40 @@ export class AlertasComponent {
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
   }
 
-  getalerta(key: string) {
+  getalerta(key: string, estate: string): void {
+    this.AlertaService.getalerta(key).subscribe(alertas => {
+      this.alertasArr.id = alertas[0].id;
+      this.alertasArr.userId = alertas[0].userId;
+      this.alertasArr.grupo_id = alertas[0].grupo_id;
+      this.alertasArr.lugar = alertas[0].lugar;
+      this.alertasArr.texto = alertas[0].texto;
+      this.alertasArr.estado = estate;
+      this.alertasArr.foto = alertas[0].foto;
+      this.alertasArr.fecha = alertas[0].fecha;
+    });
+/*     this.AlertaService.getalerta(key).subscribe(actions => actions
+      .forEach(action => {
 
-    let alertasCollection = this.afs.collection('/alertas',
+        let id = action.id
+        let userId = action.userId
+        let grupo_id = action.grupo_id
+        let lugar = action.lugar
+        let texto = action.texto
+        let estado = estate
+        let foto = action.foto
+        let fecha = action.fecha
+
+        this.alertasArr = {
+          id, userId, grupo_id, foto, lugar, 
+          texto, estado, fecha
+        };
+      
+      })
+      ); */
+    /* this.alertasCollection = this.afs.collection('/alertas',
       ref => ref.where('id', '==', key));
 
-    alertasCollection.snapshotChanges().subscribe(actions => {
+      this.alertasCollection.snapshotChanges().subscribe(actions => {
       actions.forEach(action => {
         const data = action.payload.doc.data() as Alert;
         this.alertasArr.userId = data.userId;
@@ -50,7 +84,7 @@ export class AlertasComponent {
         this.alertasArr.foto = data.foto;
         this.alertasArr.fecha = data.fecha;
       });
-    });
+    }); */
   }
 
 
@@ -82,28 +116,12 @@ export class AlertasComponent {
     }
   }
 
-  dataform(estado: string) {
-    const id = this.afs.createId();
-    let userId = this.alertasArr.userId;
-    let grupo_id = this.alertasArr.grupo_id;
-    let lugar = this.alertasArr.lugar;
-    let texto = this.alertasArr.texto;
-    let foto = this.alertasArr.foto;
-    let fecha = this.alertasArr.fecha;
-    const colecciones: Alert = {
-      id, userId, grupo_id, lugar,
-      texto, estado, foto, fecha
-    };
-    return colecciones;
-  }
-
   onSelect(dato: string): void {
     this.selectedAlerta = dato;
   }
 
   atenderAlerta(key: string): void {
     const estado = "1"
-    let coleccionForm = this.dataform(estado)
     try {
       // this.afs.collection('alertas').doc(coleccionForm.userId).update(this.alertasCollection);
     } catch (error) {
@@ -111,11 +129,10 @@ export class AlertasComponent {
     }
   }
 
-  rechazarAlerta(key: string): void {
-    this.getalerta(key)
-    // const estado = "2"
-    //const data = this.dataform(estado)
-    console.log("rechazarAlerta() data",key, this.alertasArr)
+  rechazarAlerta(key: string, msgVal: string): void {
+    const estado = "0"
+    this.getalerta(key, estado)
+    console.log("rechazarAlerta()alertasArr", this.alertasArr)
     try {
       // this.afs.collection('alertas').doc(key).update(this.alertasArr);
     } catch (error) {
@@ -125,8 +142,11 @@ export class AlertasComponent {
 
   updateAlerta(key: string, msgVal: string): void {
     const estado = "3"
+    this.getalerta(key, estado)
+    console.log("updateAlerta()alertasArr", this.alertasArr)
+
     try {
-      // this.afs.collection('alertas').doc(key).update(this.alertasCollection);
+      // this.afs.collection('alertas').doc(key).update(this.alertasArr);
     } catch (error) {
       console.log("updateAlerta", error)
     }

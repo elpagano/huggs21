@@ -14,7 +14,7 @@
       <div>
         <img src="assets/icon/alertasUpdate.svg">
         <button (click)="deleteDoc(item.id)">Eliminar</button>
-        <button (click)="rechazarAlerta(item.id)  ">Rechazar</button>
+        <button (click)="rechazarAlerta(item.id, msgVal)  ">Rechazar</button>
         <button (click)="updateAlerta(item.id, msgVal)">Actualizar</button>
         <div>
           {{item.texto}}
