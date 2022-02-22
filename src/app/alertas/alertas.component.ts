@@ -23,27 +23,38 @@ export class AlertasComponent {
   alerta = false;
   selectedAlerta = ''; //un valor de entrada para el input de autenticación
 
-  alertasArr = {
-    userId: '',
-    grupo_id: '',
-    lugar: '',
-    texto: '',
-    estado: 1,
-    foto: '',
-    fecha: '',
-  }
+  alertasArr = { userId: '', grupo_id: '', lugar: '', texto: '', estado: '', foto: '', fecha: '' }
 
   constructor(private readonly afs: AngularFirestore, public router: Router) {
-
-    if(router.url == '/alertas'){
-    this.alertasCollection = afs.collection<Alert>('alertas');
+    if (router.url == '/alertas') {
+      this.alertasCollection = afs.collection<Alert>('alertas');
     } else {
-    this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
+      this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
     }
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
   }
 
-  addItem(texto: string, event: Event) {
+  getalerta(key: string) {
+
+    let alertasCollection = this.afs.collection('/alertas',
+      ref => ref.where('id', '==', key));
+
+    alertasCollection.snapshotChanges().subscribe(actions => {
+      actions.forEach(action => {
+        const data = action.payload.doc.data() as Alert;
+        this.alertasArr.userId = data.userId;
+        this.alertasArr.grupo_id = data.grupo_id;
+        this.alertasArr.lugar = data.lugar;
+        this.alertasArr.texto = data.texto;
+        this.alertasArr.estado = data.estado;
+        this.alertasArr.foto = data.foto;
+        this.alertasArr.fecha = data.fecha;
+      });
+    });
+  }
+
+
+  addItem(texto: string) {
 
     this.alerta = true;
     const id = this.afs.createId();
@@ -53,8 +64,6 @@ export class AlertasComponent {
     let userId = this.auth.currentUser?.uid || '';
     const foto = this.auth.currentUser?.photoURL || '';
     const fecha = Date()
-    console.log("auth", this.auth.currentUser?.displayName)
-    console.log("auth", typeof (this.auth.currentUser?.uid.toString()))
     // Persist a document id
     const item: Alert = { id, userId, grupo_id, lugar, texto, estado, foto, fecha };
     this.alertasCollection.doc(id).set(item);
@@ -66,6 +75,7 @@ export class AlertasComponent {
 
   deleteDoc(id: string) {
     try {
+
       this.afs.collection('alertas').doc(id).delete();
     } catch (error) {
       console.log("deleteDoc", error)
@@ -84,7 +94,6 @@ export class AlertasComponent {
       id, userId, grupo_id, lugar,
       texto, estado, foto, fecha
     };
-
     return colecciones;
   }
 
@@ -96,30 +105,28 @@ export class AlertasComponent {
     const estado = "1"
     let coleccionForm = this.dataform(estado)
     try {
-      this.afs.collection('alertas').doc(coleccionForm.userId).update(coleccionForm);
+      // this.afs.collection('alertas').doc(coleccionForm.userId).update(this.alertasCollection);
     } catch (error) {
       console.log("updateUsuario", error)
     }
   }
 
   rechazarAlerta(key: string): void {
-
-    console.log("rechazarAlerta", key)
-    const estado = "2"
-    let coleccionForm = this.dataform(estado)
+    this.getalerta(key)
+    // const estado = "2"
+    //const data = this.dataform(estado)
+    console.log("rechazarAlerta() data",key, this.alertasArr)
     try {
-      this.afs.collection('alertas').doc(key).update(estado);
+      // this.afs.collection('alertas').doc(key).update(this.alertasArr);
     } catch (error) {
       console.log("rechazarAlerta", error)
     }
   }
 
-  updateAlerta( key: string, msgVal: string): void {
-    console.log("updateAlerta", key, msgVal)
+  updateAlerta(key: string, msgVal: string): void {
     const estado = "3"
-    let coleccionForm = this.dataform(estado)
     try {
-      this.afs.collection('alertas').doc(key).update(estado);
+      // this.afs.collection('alertas').doc(key).update(this.alertasCollection);
     } catch (error) {
       console.log("updateAlerta", error)
     }

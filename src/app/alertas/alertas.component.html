@@ -1,9 +1,9 @@
 <div>
   <div style="width: 20rem;">
-    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal, $event)">
+    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)">
       <img src="assets/icon/alertasSend.svg">
     </a>
-    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal, $event)" [(ngModel)]="msgVal"
+    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal"
       size="22" maxlength="30" />
     <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
       <strong>Atención!</strong> su alerta fué enviada
@@ -14,7 +14,7 @@
       <div>
         <img src="assets/icon/alertasUpdate.svg">
         <button (click)="deleteDoc(item.id)">Eliminar</button>
-        <button (click)="rechazarAlerta(item.id)">Rechazar</button>
+        <button (click)="rechazarAlerta(item.id)  ">Rechazar</button>
         <button (click)="updateAlerta(item.id, msgVal)">Actualizar</button>
         <div>
           {{item.texto}}
