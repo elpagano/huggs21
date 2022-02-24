@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
@@ -7,6 +7,8 @@ import { Router } from "@angular/router";
 
 import { Alert } from "./alertas"
 import { AlertaService } from "../services/alerta.service";
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-alertas',
@@ -15,9 +17,6 @@ import { AlertaService } from "../services/alerta.service";
 })
 
 export class AlertasComponent {
-  selectAlert?: Alert;
-  alert: Alert[] = [];
-
 
   alertas: Observable<Alert[]>;
   auth = getAuth();
@@ -29,9 +28,16 @@ export class AlertasComponent {
   alerta = false;
   selectedAlerta = ''; //un valor de entrada para el input de autenticación
 
-  alertasArr: Alert = { id: '', userId: '', grupo_id: '', lugar: '', texto: '', estado: '', foto: '', fecha: '' }
+  alertasArr: any = [];
 
-  constructor(private AlertaService: AlertaService, private readonly afs: AngularFirestore, public router: Router) {
+  alertArr: Array<{
+    id: string, userId: string, grupo_id: string,
+    lugar: string, texto: string, estado: string,
+    foto: string, fecha: string
+  }> = [];
+
+  constructor(private http: HttpClient, private AlertaService: AlertaService,
+    private readonly afs: AngularFirestore, public router: Router) {
     if (router.url == '/alertas') {
       this.alertasCollection = afs.collection<Alert>('alertas');
     } else {
@@ -40,56 +46,40 @@ export class AlertasComponent {
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
   }
 
-  getalerta(key: string, estate: string): void {
-    this.AlertaService.getalerta(key).subscribe(alertas => {
-      this.alertasArr.id = alertas[0].id;
-      this.alertasArr.userId = alertas[0].userId;
-      this.alertasArr.grupo_id = alertas[0].grupo_id;
-      this.alertasArr.lugar = alertas[0].lugar;
-      this.alertasArr.texto = alertas[0].texto;
-      this.alertasArr.estado = estate;
-      this.alertasArr.foto = alertas[0].foto;
-      this.alertasArr.fecha = alertas[0].fecha;
-    });
-/*     this.AlertaService.getalerta(key).subscribe(actions => actions
-      .forEach(action => {
+  getal(key: string, est: string) {
+/*     const a = this.AlertaService.getalerta(key).subscribe(
+      (data) => {
+        data.forEach(element => {
+          this.alertArr.push({
+            id: element.id, userId: element.userId, grupo_id: element.grupo_id,
+            lugar: element.lugar, texto: element.texto, estado: est,
+            foto: element.foto, fecha: element.fecha
+          })
+        })
+      }); */
+    //*************
 
-        let id = action.id
-        let userId = action.userId
-        let grupo_id = action.grupo_id
-        let lugar = action.lugar
-        let texto = action.texto
-        let estado = estate
-        let foto = action.foto
-        let fecha = action.fecha
+    let collection =  this.afs.collection
+    ('alertas', ref => ref.where('id', '==', key));
 
-        this.alertasArr = {
-          id, userId, grupo_id, foto, lugar, 
-          texto, estado, fecha
-        };
-      
-      })
-      ); */
-    /* this.alertasCollection = this.afs.collection('/alertas',
-      ref => ref.where('id', '==', key));
+    this.alertArr = [];
 
-      this.alertasCollection.snapshotChanges().subscribe(actions => {
+    collection.snapshotChanges().subscribe(actions => {
       actions.forEach(action => {
         const data = action.payload.doc.data() as Alert;
-        this.alertasArr.userId = data.userId;
-        this.alertasArr.grupo_id = data.grupo_id;
-        this.alertasArr.lugar = data.lugar;
-        this.alertasArr.texto = data.texto;
-        this.alertasArr.estado = data.estado;
-        this.alertasArr.foto = data.foto;
-        this.alertasArr.fecha = data.fecha;
+        this.alertArr.push({ id: data.id, 
+          userId: data.userId, grupo_id: data.grupo_id,
+          lugar: data.lugar, texto: data.texto, estado: est,
+          foto: data.foto, fecha: data.fecha
+        });
       });
-    }); */
+    });
+
+    console.log("alertArr",  this.alertArr )
+
   }
 
-
   addItem(texto: string) {
-
     this.alerta = true;
     const id = this.afs.createId();
     const grupo_id = 'aa';
@@ -109,7 +99,6 @@ export class AlertasComponent {
 
   deleteDoc(id: string) {
     try {
-
       this.afs.collection('alertas').doc(id).delete();
     } catch (error) {
       console.log("deleteDoc", error)
@@ -120,21 +109,31 @@ export class AlertasComponent {
     this.selectedAlerta = dato;
   }
 
+  clearAlerta() {
+    this.alertArr = [];
+  }
+
   atenderAlerta(key: string): void {
     const estado = "1"
-    try {
-      // this.afs.collection('alertas').doc(coleccionForm.userId).update(this.alertasCollection);
-    } catch (error) {
-      console.log("updateUsuario", error)
+    this.getal(key, estado)
+
+    if (this.alertArr[0] !== null && this.alertArr[0] !== undefined) {
+      try {
+        console.log("AAAA", this.alertArr[0].id)
+        this.afs.collection('alertas').doc(this.alertArr[0].id).update(this.alertasCollection);
+      } catch (error) {
+        console.log("atenderAlerta", error)
+      }
     }
+
   }
 
   rechazarAlerta(key: string, msgVal: string): void {
     const estado = "0"
-    this.getalerta(key, estado)
-    console.log("rechazarAlerta()alertasArr", this.alertasArr)
+    this.getal(key, estado)
+    console.log("rechazarAlerta", this.alertArr[0])
     try {
-      // this.afs.collection('alertas').doc(key).update(this.alertasArr);
+      this.afs.collection('alertas').doc(this.alertArr[0].id).update(this.alertasArr);
     } catch (error) {
       console.log("rechazarAlerta", error)
     }
@@ -142,8 +141,8 @@ export class AlertasComponent {
 
   updateAlerta(key: string, msgVal: string): void {
     const estado = "3"
-    this.getalerta(key, estado)
-    console.log("updateAlerta()alertasArr", this.alertasArr)
+    this.getal(key, estado)
+    console.log("updateAlerta", this.alertArr[0])
 
     try {
       // this.afs.collection('alertas').doc(key).update(this.alertasArr);
