@@ -15,12 +15,8 @@
         <img src="assets/icon/alertasUpdate.svg">
         <button (click)="atenderAlerta(item.id)">Atender</button>
         <button (click)="deleteDoc(item.id)">Eliminar</button>
-        <button (focus)="rechazarAlerta(item.id, msgVal)" (click)="rechazarAlerta(item.id, msgVal)">Rechazar</button>
+        <button (click)="rechazarAlerta(item.id)">Rechazar</button>
         <button (click)="updateAlerta(item.id, msgVal)">Actualizar</button>
-        <a (click)="updateAlerta(item.id, msgVal)" class="menuLink">
-          test updateAlerta
-        </a>
-
         <div>
           {{item.texto}}
           Estado {{item.estado}}
