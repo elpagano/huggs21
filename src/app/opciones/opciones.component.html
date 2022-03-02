@@ -31,6 +31,9 @@
             <input type="text" class="form-control" [(ngModel)]="opcionesArr.facultad" />
             <label>Capasitaciones </label>
             <input type="text" class="form-control" [(ngModel)]="opcionesArr.capasitaciones" />
+            <mat-slide-toggle [(ngModel)]="isChecked">
+                Perminitir que cualquier usuario me añada a un grupo
+            </mat-slide-toggle>
         </div>
         <span class="clearfix"></span>
         <div class="col s12">
@@ -42,6 +45,9 @@
                 <button type="button" class="btn btn-info" (click)="createUsuario()">
                     Cargar Datos</button>
             </ng-template>
+        </div>
+        <div>
+            <p></p>
         </div>
     </div>
 </div>

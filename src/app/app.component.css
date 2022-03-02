@@ -13,7 +13,7 @@
     height: 25px;
     width: 25px;
   }
-  
+/*   
   .fondo{
     background: #e2e9f1;
   }
@@ -21,7 +21,8 @@
   mat-grid-tile {
     background: lightblue;
   }
-  @media screen and (max-width: 768px){
+
+   screen and (max-width: 768px){
     footer{
       font-size: 12px;
     }
@@ -32,13 +33,5 @@
       display: none;
     }
   }
-  
-  /* Medium devices (tablets, 768px and up)*/
-  @media (min-width: 768px) {  }
-  
-  /* Large devices (desktops, 992px and up)*/
-  @media (min-width: 992px) {  }
-  
-  /* Extra large devices (large desktops, 1200px and up)*/
-  @media (min-width: 1200px) {  }
+*/
   

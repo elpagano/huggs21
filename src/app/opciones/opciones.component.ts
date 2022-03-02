@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { delay, Observable, of, switchMap, Subject } from 'rxjs';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import {  Observable } from 'rxjs';
 import { getAuth, } from "firebase/auth";
 import { Opciones } from "./opcionesInt"
-import { collection, query, where } from "firebase/firestore";
-import { filter, map, catchError } from 'rxjs/operators';
-import { ajax } from 'rxjs/ajax';
 
 @Component({
   selector: 'app-opciones',
@@ -15,6 +12,7 @@ import { ajax } from 'rxjs/ajax';
 })
 
 export class OpcionesComponent implements OnInit {
+  isChecked = true;
 
   texto = new FormControl('');
   auth = getAuth();
@@ -24,12 +22,17 @@ export class OpcionesComponent implements OnInit {
     userId: this.auth.currentUser?.uid || '',
     foto: this.auth.currentUser?.photoURL || '',
     nombre: '', apellido: '', rol: '', lugar: '', horarioydia: '',
-    lenguaje: '', titulo: '', facultad: '', capasitaciones: ''
+    lenguaje: '', titulo: '', facultad: '', capasitaciones: '',
+    autoAniadirGrupo: true, 
   }
   roles = [
-    {name: 'Madre/Padre', abbrev: 'MA'},
+    {name: 'Coordinador/a', abbrev: 'CO'},
     {name: 'Terapeuta', abbrev: 'TE'},
-    {name: 'Paciente', abbrev: 'PA'},
+    {name: 'Asistente Terapéutico', abbrev: 'AT'},
+    {name: 'Educador/a', abbrev: 'ED'},
+    {name: 'Padre/Madre', abbrev: 'PM'},
+    {name: 'Médico', abbrev: 'ME'},
+    {name: 'Profesional de la salud', abbrev: 'PS'},
   ];
 
   form = new FormGroup({
@@ -84,6 +87,7 @@ export class OpcionesComponent implements OnInit {
         this.opcionesArr.titulo = data.titulo;
         this.opcionesArr.facultad = data.facultad;
         this.opcionesArr.capasitaciones = data.capasitaciones;
+        this.isChecked = data.autoAniadirGrupo;
       });
     });
     return this.find;
@@ -106,19 +110,18 @@ export class OpcionesComponent implements OnInit {
     let facultad = this.opcionesArr.facultad;
     let capasitaciones = this.opcionesArr.capasitaciones;
     let nomLowercase = this.opcionesArr.nombre.toLowerCase();
+    let autoAniadirGrupo = this.isChecked;
 
     const colecciones: Opciones = {
       id, nomUsuer, email, userId,
       foto, nombre, apellido, rol, lugar, horarioydia, lenguaje,
-      titulo, facultad, capasitaciones, nomLowercase
+      titulo, facultad, capasitaciones, nomLowercase, autoAniadirGrupo
     };
 
     return colecciones;
   }
 
   updateUsuario() {
-    console.log("updateUsuario")
-
     let coleccionForm = this.dataform()
     try {
       this.afs.collection('options').doc(coleccionForm.userId).update(coleccionForm);
@@ -128,8 +131,6 @@ export class OpcionesComponent implements OnInit {
   }
 
   createUsuario() {
-    console.log("createUsuario")
-
     let coleccionForm = this.dataform()
     try {
       this.afs.collection('options').doc(coleccionForm.userId).set(coleccionForm);

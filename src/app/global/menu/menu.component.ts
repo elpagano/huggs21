@@ -15,9 +15,9 @@ selected = '';
     {text: 'Programa',      url:'/programacion',  icon: './assets/icon/programacion.svg'/*disabled: true*/},
     {text: 'Documentacion', url:'documentacion',  icon: './assets/icon/documentacion.svg'},
     {text: 'Alertas',       url:'alertas',        icon: './assets/icon/alertas.svg'},
-    {text: 'Mensajes',      url:'mensajes',       icon: './assets/icon/mensajes.svg'},
-    {text: 'Metricas',      url:'metricas',       icon: './assets/icon/metricas.svg'},
-    {text: 'Datos',         url:'TomaDatos',      icon: './assets/icon/datos.svg'},
+  // {text: 'Mensajes',      url:'mensajes',       icon: './assets/icon/mensajes.svg'},
+  // {text: 'Metricas',      url:'metricas',       icon: './assets/icon/metricas.svg'},
+  // {text: 'Datos',         url:'TomaDatos',      icon: './assets/icon/datos.svg'},
     {text: 'Opciones',      url:'opciones',       icon: './assets/icon/opciones.svg'},
   ];
 

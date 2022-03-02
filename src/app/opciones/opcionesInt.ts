@@ -14,4 +14,5 @@ export interface Opciones {
   facultad: string;
   capasitaciones: string;
   nomLowercase: string;
+  autoAniadirGrupo: boolean;
 }
