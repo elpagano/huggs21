@@ -1,34 +1,33 @@
-<mat-grid-list cols="2" rowHeight="2:1">
+<!-- <mat-grid-list cols="2" >
 
   <mat-grid-tile-header>
     <app-menu></app-menu>
   </mat-grid-tile-header>
   
-  <mat-grid-tile >
+  <mat-grid-tile colspan="1" [ngStyle]="{'color': '#bcc7c8'}" >
     <router-outlet></router-outlet>
-  </mat-grid-tile>
-  <mat-grid-tile >
-    <div *ngIf="router.url != '/alertas'">
+ 
+  <mat-grid-tile colspan="1" *ngIf="router.url != '/alertas'">
       <app-alertas></app-alertas>
-    </div>
   </mat-grid-tile>
-
-  <mat-grid-tile-footer>
+ </mat-grid-tile>
+  <mat-grid-tile [ngStyle]="{'color': '#e2e9f1'}">
     contactos: estejpagano@gmail.com @Creative Commons
     <a href="https://github.com/elpagano/tgdhuggs" target="_blank">
       - <img src="assets/github.png" class="logogit">
     </a>
-  </mat-grid-tile-footer>
+  </mat-grid-tile>
 
 </mat-grid-list>
-
-<!-- 
+ -->
 
 <div class="container-fluid" class="fondo">
+  <div class="col-12">
+    <app-login></app-login>
+  </div>
 
-
-  <app-login></app-login>
   <div class="row" *ngIf="auth.user | async as user;">
+
     <div class="col-12">
       <app-menu></app-menu>
     </div>
@@ -36,15 +35,21 @@
     <div class="col-10">
       <router-outlet></router-outlet>
     </div>
-    <div class="col-2 " style="background: #bcc7c8; height:100%; border-right: 3px solid rgb(6, 2, 132);">
+    <div class="col-2 " style="background: #bcc7c8; ">
       <div *ngIf="router.url != '/alertas'">
         <app-alertas></app-alertas>
       </div>
     </div>
   </div>
-  <div class="col-12" class="footer">
-    contactos: estejpagano@gmail.com @Creative Commons
-    <a href="https://github.com/elpagano/tgdhuggs" target="_blank">
-      - <img src="assets/github.png" class="logogit">
-    </a>
-  </div> -->
+  <div class="row" class="footer">
+    
+    <div class="col-12"> <p></p></div>
+  </div>
+  <div class="row" class="footer">
+    <div class="col-12">
+      contactos: estejpagano@gmail.com @Creative Commons
+      <a href="https://github.com/elpagano/tgdhuggs" target="_blank">
+        - <img src="assets/github.png" class="logogit">
+      </a>
+    </div>
+  </div>

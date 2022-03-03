@@ -20,7 +20,7 @@
   <div>
     <ul>
       <li *ngFor="let group of groups | async">
-        <a (click)="deleteGroup(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
+        <a *ngIf="tipoUsuario" (click)="deleteGroup(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
         <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
           &nbsp; {{ group.nameGroup }} &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
           Agregar Usuarios.
@@ -37,7 +37,7 @@
     <ul>
       <li *ngFor=" let user of selectedUsers ">
         {{user.nombre}}
-        <a (click)="deleteUser(user.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
+        <a  *ngIf="tipoUsuario"  (click)="deleteUser(user.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
       </li>
     </ul>
     <input type="text" [(ngModel)]="msgUsuario" />

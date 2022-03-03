@@ -1,18 +1,30 @@
 .footer{
-    max-height: 33px;
+    height: 33px;
     width: 100%;
     color:#000;
     background: #63a4ff;
     padding: 4px;
-      position:fixed;
-      bottom: 0px;
-    font-size: 12px;
+    position: fixed;
+    bottom: 0px;
+    border: 1px solid;
   }
   
   .logogit{
     height: 25px;
     width: 25px;
   }
+
+  mat-grid-list{
+    background: rgb(96, 85, 181);
+    height: 100%;
+  }
+
+  mat-grid-tile {
+    background: lightblue;
+    height: 100%;
+  }
+
+
 /*   
   .fondo{
     background: #e2e9f1;

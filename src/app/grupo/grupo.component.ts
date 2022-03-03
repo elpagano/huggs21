@@ -14,12 +14,15 @@ import { Usuario } from "../login/user";
 })
 
 export class GrupoComponent implements OnInit {
+
   readonly pathAlertas = 'groups';
   groups: Observable<Groups[]>;
   private grupoCollection: AngularFirestoreCollection<Groups>;
+
   //busco en options porque es donde estan todos los datos del usuario completos.
   //options: Observable<Opciones[]>;
-  //private optionsCollection: AngularFirestoreCollection<Opciones>;
+ // private optionsCollection: AngularFirestoreCollection<Opciones>;
+
   auth = getAuth();
   msgValGrup = '';
   msgUsuario = '';
@@ -27,19 +30,23 @@ export class GrupoComponent implements OnInit {
   selectedGrupid = '';
   selectedGrupNom = '';
   selectAssUsers = false;
+  tipoUsuario = false;
   arrUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
-
   selectedUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
 
-  constructor(
-    private readonly afs: AngularFirestore,
-  ) {
+  constructor( private readonly afs: AngularFirestore ) {
+ 
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
+
+   // this.optionsCollection = afs.collection<Opciones>('options');
+   // this.options = this.optionsCollection.valueChanges({ idField: 'options' });
   }
 
   ngOnInit(): void {
+    const uid = this.auth.currentUser?.uid || '';
     this.clearUsuarios();
+    this.getOptions(uid);
   }
 
   closemsgGroup() {
@@ -133,7 +140,30 @@ export class GrupoComponent implements OnInit {
         if (data.users[0] === 0) {
           this.selectedUsers = [];
         } else {
-        this.selectedUsers = data.users;
+          this.selectedUsers = data.users;
+        }
+      });
+    });
+    
+  }
+
+  getOptions(id: string) {
+
+    let expensesCollection = this.afs.collection('/options',
+      ref => ref.where('userId', '==', id));
+
+    expensesCollection.snapshotChanges().subscribe(actions => {
+      actions.forEach(action => {
+        const data = action.payload.doc.data() as Opciones;
+        console.log("data.rol", data.rol)
+
+        //limpio si el array de usuarios está iniciado con 0
+        if (data.rol === "CO" || data.rol === "PM" ) {
+          console.log("getOptions true")
+          this.tipoUsuario = true
+        } else {
+          console.log("getOptions true")
+          this.tipoUsuario = false
         }
       });
     });
