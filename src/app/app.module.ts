@@ -37,9 +37,11 @@ import { PermisosComponent } from './permisos/permisos.component';
 import { ProgramacionComponent } from './programacion/programacion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms"; //this to use ngModule
+
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatSlideToggleModule,
     MatGridListModule,
     MatMenuModule,
-    
+    MatIconModule,    
   ],
   providers: [{ provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
   { provide: USE_DEVICE_LANGUAGE, useValue: true },

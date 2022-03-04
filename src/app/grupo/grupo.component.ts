@@ -6,6 +6,7 @@ import { Groups } from "./grupo";
 import { FormControl } from '@angular/forms';
 import { Opciones } from "../opciones/opcionesInt";
 import { Usuario } from "../login/user";
+import { OpcionesService } from "../services/opciones.service";
 
 @Component({
   selector: 'app-grupo',
@@ -34,7 +35,8 @@ export class GrupoComponent implements OnInit {
   arrUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
   selectedUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
 
-  constructor( private readonly afs: AngularFirestore ) {
+  constructor( private readonly afs: AngularFirestore,
+               private OpcionesService: OpcionesService) {
  
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
@@ -147,26 +149,8 @@ export class GrupoComponent implements OnInit {
     
   }
 
-  getOptions(id: string) {
-
-    let expensesCollection = this.afs.collection('/options',
-      ref => ref.where('userId', '==', id));
-
-    expensesCollection.snapshotChanges().subscribe(actions => {
-      actions.forEach(action => {
-        const data = action.payload.doc.data() as Opciones;
-        console.log("data.rol", data.rol)
-
-        //limpio si el array de usuarios está iniciado con 0
-        if (data.rol === "CO" || data.rol === "PM" ) {
-          console.log("getOptions true")
-          this.tipoUsuario = true
-        } else {
-          console.log("getOptions true")
-          this.tipoUsuario = false
-        }
-      });
-    });
-  }
+    getOptions(key: string,) {
+      this.tipoUsuario = this.OpcionesService.getOptions(key)
+    }  
 }
 

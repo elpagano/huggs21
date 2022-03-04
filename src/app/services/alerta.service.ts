@@ -19,6 +19,5 @@ export class AlertaService {
 
   getalerta(key: string): Observable<Alert[]>  {
     return this.afs.collection<Alert>('alertas', ref => ref.where('id', '==', key)).valueChanges();
-    
   }
 }

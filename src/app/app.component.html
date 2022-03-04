@@ -31,19 +31,14 @@
     <div class="col-12">
       <app-menu></app-menu>
     </div>
-
-    <div class="col-10">
+    <div class="col-9"  style="padding-bottom: 25px;">
       <router-outlet></router-outlet>
     </div>
-    <div class="col-2 " style="background: #bcc7c8; ">
+    <div class="col-3" style="background: #bcc7c8;  ">
       <div *ngIf="router.url != '/alertas'">
         <app-alertas></app-alertas>
       </div>
     </div>
-  </div>
-  <div class="row" class="footer">
-    
-    <div class="col-12"> <p></p></div>
   </div>
   <div class="row" class="footer">
     <div class="col-12">
