@@ -11,6 +11,7 @@ import { Opciones } from "../opciones/opcionesInt";
 export class OpcionesService {
 
   tipoUsuario = false;
+  tipo = false;
 
   constructor(private readonly afs: AngularFirestore) {
   }
@@ -19,18 +20,22 @@ export class OpcionesService {
 
     let expensesCollection = this.afs.collection('/options',
       ref => ref.where('userId', '==', id));
-      let tipo = false;
     expensesCollection.snapshotChanges().subscribe(actions => {
       actions.forEach(action => {
+        
         const data = action.payload.doc.data() as Opciones;
         //limpio si el array de usuarios está iniciado con 0
         if (data.rol === "CO" || data.rol === "PM" ) {
-          tipo = true
+          console.log("rol true")
+          this.tipo = true
         } else {
-          tipo = false
+          console.log("rol false")
+          this.tipo = false
         }
       });
     });
-    return tipo
+    console.log("getOptions SERVICE tipoUsuario", this.tipo)
+    console.log("getOptions SERVICE id", id)
+    return this.tipo
   }
 }

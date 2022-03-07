@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Groups } from "./grupo";
-import { FormControl } from '@angular/forms';
-import { Opciones } from "../opciones/opcionesInt";
 import { Usuario } from "../login/user";
 import { OpcionesService } from "../services/opciones.service";
+
 
 @Component({
   selector: 'app-grupo',
@@ -20,10 +19,6 @@ export class GrupoComponent implements OnInit {
   groups: Observable<Groups[]>;
   private grupoCollection: AngularFirestoreCollection<Groups>;
 
-  //busco en options porque es donde estan todos los datos del usuario completos.
-  //options: Observable<Opciones[]>;
- // private optionsCollection: AngularFirestoreCollection<Opciones>;
-
   auth = getAuth();
   msgValGrup = '';
   msgUsuario = '';
@@ -36,19 +31,16 @@ export class GrupoComponent implements OnInit {
   selectedUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
 
   constructor( private readonly afs: AngularFirestore,
-               private OpcionesService: OpcionesService) {
+               private OpcionesService: OpcionesService,) {
  
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
-
-   // this.optionsCollection = afs.collection<Opciones>('options');
-   // this.options = this.optionsCollection.valueChanges({ idField: 'options' });
+    const uid = this.auth.currentUser?.uid || '';
+    this.getOptions(uid);
   }
 
   ngOnInit(): void {
-    const uid = this.auth.currentUser?.uid || '';
     this.clearUsuarios();
-    this.getOptions(uid);
   }
 
   closemsgGroup() {
@@ -146,11 +138,16 @@ export class GrupoComponent implements OnInit {
         }
       });
     });
-    
   }
 
     getOptions(key: string,) {
       this.tipoUsuario = this.OpcionesService.getOptions(key)
+      console.log("tipoUsuario", this.tipoUsuario)
+      console.log("key", key)
     }  
+
+  
+
+
 }
 

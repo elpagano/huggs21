@@ -23,14 +23,23 @@
   <div>
     <ul>
       <li *ngFor="let group of groups | async">
-        <a *ngIf="tipoUsuario" (click)="deleteGroup(group.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
-        <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
-          &nbsp; {{ group.nameGroup }} &nbsp;
-          <samp *ngIf="tipoUsuario">
-            <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
-            Agregar Usuarios.
-          </samp>
-        </a>
+        <div>
+          Grupo: {{ group.nameGroup }}
+
+          <div>
+            <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
+              <samp *ngIf="tipoUsuario">
+                <span class="material-icons">
+                  manage_accounts
+                </span>
+                Agregar Usuarios.
+              </samp>
+            </a>
+            <a *ngIf="tipoUsuario" (click)="deleteGroup(group.id)" style="color:#ff0064" >
+              <span style="color:#ff0064" class="material-icons">delete_forever</span>
+            </a>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -43,18 +52,18 @@
     <ul>
       <li *ngFor=" let user of selectedUsers ">
         {{user.nombre}}
-        <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-
-        <a *ngIf="tipoUsuario" (click)="deleteUser(user.id)"><img src="assets/icon/delete.svg" class="logogit"></a>
+        <a *ngIf="tipoUsuario" (click)="deleteUser(user.id)">
+          <span style="color:#ff0064" class="material-icons">delete_forever</span>
+        </a>
       </li>
     </ul>
 
-    <div  *ngIf="tipoUsuario">
-    <input type="text" [(ngModel)]="msgUsuario" />
-    <button type="button" class="btn btn-info" (click)="searchUser(msgUsuario)">
-      Buscar Usuario
-    </button>
-  </div>
+    <div *ngIf="tipoUsuario">
+      <input type="text" [(ngModel)]="msgUsuario" />
+      <button type="button" class="btn btn-info" (click)="searchUser(msgUsuario)">
+        Buscar Usuario
+      </button>
+    </div>
     <ul>
       <li *ngFor=" let user of arrUsers ">
         <a (click)="addArrUserGrupo(user.id!, user.nombre, user.nomLowercase)" class="menuLink">
