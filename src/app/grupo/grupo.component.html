@@ -3,7 +3,6 @@
     <div class="col-12">
       Grupos
     </div>
-
   </div>
   <div *ngIf="tipoUsuario; else elseBlock">
     Aquí podrá generar grupos de trabajo por cada paciente.
@@ -24,21 +23,16 @@
     <ul>
       <li *ngFor="let group of groups | async">
         <div>
-          Grupo: {{ group.nameGroup }}
-
-          <div>
-            <a (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
-              <samp *ngIf="tipoUsuario">
-                <span class="material-icons">
-                  manage_accounts
-                </span>
-                Agregar Usuarios.
-              </samp>
-            </a>
-            <a *ngIf="tipoUsuario" (click)="deleteGroup(group.id)" style="color:#ff0064" >
-              <span style="color:#ff0064" class="material-icons">delete_forever</span>
-            </a>
-          </div>
+          Grupo:
+           {{ group.nameGroup }}
+           <button type="button" (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
+            <samp *ngIf="tipoUsuario">
+              <span class="material-icons" title="Agregar Usuarios.">manage_accounts</span>
+            </samp>
+          </button>
+          <button *ngIf="tipoUsuario" (click)="deleteGroup(group.id)" style="color:#ff0064">
+            <span style="color:#ff0064" class="material-icons">delete_forever</span>
+          </button>
         </div>
       </li>
     </ul>
@@ -67,7 +61,7 @@
     <ul>
       <li *ngFor=" let user of arrUsers ">
         <a (click)="addArrUserGrupo(user.id!, user.nombre, user.nomLowercase)" class="menuLink">
-          &nbsp; <img src="assets/icon/AddUsers.svg" class="menuImg"> &nbsp;
+          &nbsp; <span class="material-icons">manage_accounts</span> &nbsp;
           Agregar al grupo &nbsp; {{user.nombre}}
         </a>
       </li>

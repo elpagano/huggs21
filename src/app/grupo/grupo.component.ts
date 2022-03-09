@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Groups } from "./grupo";
 import { Usuario } from "../login/user";
 import { OpcionesService } from "../services/opciones.service";
-
+import { Opciones } from "../opciones/opcionesInt";
 
 @Component({
   selector: 'app-grupo',
@@ -30,9 +30,9 @@ export class GrupoComponent implements OnInit {
   arrUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
   selectedUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
 
-  constructor( private readonly afs: AngularFirestore,
-               private OpcionesService: OpcionesService,) {
- 
+  constructor(private readonly afs: AngularFirestore,
+    private OpcionesService: OpcionesService,) {
+
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
     const uid = this.auth.currentUser?.uid || '';
@@ -49,16 +49,13 @@ export class GrupoComponent implements OnInit {
 
   addGroup(texto: string) {
     const auth = getAuth();
-
     this.msgCreado = true;
-
     const id = this.afs.createId();
     let creator_uid = auth.currentUser?.uid || '';
     const nameGroup = texto;
     const users = this.selectedUsers;
     const estado = "1";
     const fecha = Date()
-
     const item: Groups = { id, creator_uid, nameGroup, estado, fecha, users };
     this.grupoCollection.doc(id).set(item);
   }
@@ -71,7 +68,6 @@ export class GrupoComponent implements OnInit {
     }
   }
 
-  //selecciono el grupo
   selectGroup(id: string, nameGroup: string): void {
     this.clearUsuarios();
     this.selectAssUsers = true;
@@ -79,7 +75,6 @@ export class GrupoComponent implements OnInit {
     this.selectedGrupNom = nameGroup;
     this.getUsers(id);
   }
-
 
   searchUser(msgUsuario: string) {
     let msgU = msgUsuario.toLowerCase()
@@ -123,7 +118,6 @@ export class GrupoComponent implements OnInit {
   }
 
   getUsers(id: string) {
-
     let expensesCollection = this.afs.collection('/groups',
       ref => ref.where('id', '==', id));
 
@@ -140,14 +134,22 @@ export class GrupoComponent implements OnInit {
     });
   }
 
-    getOptions(key: string,) {
-      this.tipoUsuario = this.OpcionesService.getOptions(key)
-      console.log("tipoUsuario", this.tipoUsuario)
-      console.log("key", key)
-    }  
+  getOptions(key: string,) {
+    let expensesCollection = this.afs.collection('/options',
+      ref => ref.where('userId', '==', key));
+    expensesCollection.snapshotChanges().subscribe(actions => {
+      actions.forEach(action => {
 
-  
-
-
+        const data = action.payload.doc.data() as Opciones;
+        //limpio si el array de usuarios está iniciado con 0
+        if (data.rol === "CO" || data.rol === "PM") {
+          console.log("rol true")
+          this.tipoUsuario = true
+        } else {
+          console.log("rol false")
+          this.tipoUsuario = false
+        }
+      });
+    });
+  }
 }
-
