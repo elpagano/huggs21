@@ -1,0 +1,9 @@
+.alertaBtn{
+    width: 8rem; 
+    color: #fff; 
+    background-color: #ff0064; 
+    border: 3px solid #fff; 
+    border-radius: 2vh; 
+    display: table-cell;
+    vertical-align: top;
+}

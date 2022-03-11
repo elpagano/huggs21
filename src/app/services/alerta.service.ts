@@ -4,12 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Alert } from '../alertas/alertas';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class AlertaService {
-  alertasArr = { userId: '', grupo_id: '', lugar: '', texto: '', estado: '', foto: '', fecha: '' }
 
   private alertasCollection: AngularFirestoreCollection<Alert>;
   
@@ -17,7 +16,12 @@ export class AlertaService {
     this.alertasCollection = afs.collection<Alert>('alertas');
   }
 
-  getalerta(key: string): Observable<Alert[]>  {
-    return this.afs.collection<Alert>('alertas', ref => ref.where('id', '==', key)).valueChanges();
+  getAlerta(): AngularFirestoreCollection<Alert[]>  {
+            //this.afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
+    let collection = this.afs.collection<Alert[]>('alertas', ref => ref.limit(1).orderBy('fecha'));
+    return collection;
   }
+
+
+
 }

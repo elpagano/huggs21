@@ -1,1 +1,26 @@
-<p>alertas-notif works!</p>
+<div  class="row"  >
+  <div class="col-10">
+    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)"class="alertaBtn"><span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>¡ALERTA!</a>
+  </div>
+  <div class="col-2">
+    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal" size="22"
+      maxlength="30" />
+    <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
+      <strong>Atención!</strong> su alerta fué enviada
+    </ngb-alert>
+  </div>
+  <div *ngFor="let item of alertas | async" style="width: 20rem;">
+    <a alt="Alerta" (click)="onSelect(item.id)">
+      <div>
+        <button (click)="atenderAlerta(item.id)" class="btnAtender">
+          <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
+          Atender</button>
+        <div>
+          {{item.texto}}
+          Estado {{item.estado}}
+          <img src={{item.foto}} style="max-height: 50px;">
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

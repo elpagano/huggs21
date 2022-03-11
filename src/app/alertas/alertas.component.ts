@@ -35,7 +35,6 @@ export class AlertasComponent {
       this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
     }
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
-    console.log(this.alertas)
   }
 
   addItem(texto: string) {

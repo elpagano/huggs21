@@ -3,12 +3,9 @@ import { Router } from "@angular/router";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { AngularFireAuth, } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { Query } from "firebase/firestore";
-import { delay, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Usuario } from "./user"
-import { GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, GithubAuthProvider } from "firebase/auth";
-
 
 @Component({
   selector: 'app-login',

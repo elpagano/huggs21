@@ -24,17 +24,22 @@
 <div class="container" class="fondo">
 
     <div class="row">
-      <div class="col"  style="padding-bottom: 25px;">
-      <app-menu></app-menu>
+      <div class="col-10"  style="padding-bottom: 25px;">
+      <app-menu></app-menu>      
+    </div>
+    <div class="col-2"  style="padding-bottom: 25px;">
+      <app-login></app-login>
+
     </div>
     </div>
   <div class="row" *ngIf="auth.user | async as user;">
     <div class="col"  style="padding-bottom: 25px;">
-      <router-outlet></router-outlet>
+       <app-alertas-notif ></app-alertas-notif>
+       <router-outlet></router-outlet>
     </div>
     <div class="col-md-auto" style="background: #bcc7c8;  ">
       <div *ngIf="router.url != '/alertas'">
-        <app-alertas></app-alertas>
+       
       </div>
     </div>
   </div>
