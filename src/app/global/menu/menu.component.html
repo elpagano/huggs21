@@ -1,10 +1,18 @@
  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+  <img *ngIf="router.url != '/'" src="assets/logo.svg" style="width: 5rem;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+   data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" 
+   aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
    </button>
    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
      <div class="navbar-nav">
-       <a *ngFor="let item of alertas" class=" nav-link " routerLink={{item.url}}><img  class="menuImg" src={{item.icon}}>{{ item.text }}</a>
+       <a *ngFor="let item of alertas" class=" nav-link " routerLink={{item.url}}>
+          <span  [ngStyle]="{color: item.color }"  class="material-icons" title={{item.url}}>{{item.icon}}</span>
+          {{ item.text }}
+        </a>
      </div>
    </div>
- </nav>
+     <app-login></app-login>
+
+ </nav> 

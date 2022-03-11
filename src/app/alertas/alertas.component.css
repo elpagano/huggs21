@@ -2,3 +2,6 @@
 .imgpers {
     height: 200px;
   }
+span{
+  vertical-align: middle;
+}

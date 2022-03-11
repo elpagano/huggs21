@@ -1,31 +1,32 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent{
+export class MenuComponent {
 
-  constructor() { }
-selected = '';
+  constructor(public router: Router,) { }
+  
+  selected = '';
   alertas = [
-    {text: 'Inicio',        url:'/',              icon: './assets/icon/home.svg'},
-    {text: 'Grupos',        url:'/grupos',        icon: './assets/icon/grupos.svg'},
-    {text: 'Programa',      url:'/programacion',  icon: './assets/icon/programacion.svg'/*disabled: true*/},
-    {text: 'Documentacion', url:'documentacion',  icon: './assets/icon/documentacion.svg'},
-    {text: 'Alertas',       url:'alertas',        icon: './assets/icon/alertas.svg'},
-  // {text: 'Mensajes',      url:'mensajes',       icon: './assets/icon/mensajes.svg'},
-  // {text: 'Metricas',      url:'metricas',       icon: './assets/icon/metricas.svg'},
-  // {text: 'Datos',         url:'TomaDatos',      icon: './assets/icon/datos.svg'},
-    {text: 'Opciones',      url:'opciones',       icon: './assets/icon/opciones.svg'},
+    { text: 'Inicio',         url: '/',             icon: 'home',               color: '#008293' },
+    { text: 'Grupos',         url: '/grupos',       icon: 'supervisor_account', color: '#48C' },
+    { text: 'Programación',   url: '/programacion', icon: 'dashboard',          color: '#25f'/*disabled: true*/ },
+    { text: 'Documentación',  url: 'documentacion', icon: 'snippet_folder',     color: '#5500ff' },
+    { text: 'Alertas',        url: 'alertas',       icon: 'crisis_alert',       color: '#ff0064' },
+    {text: 'Metricas',        url:'metricas',       icon: 'pie_chart',          color: '#00bad4'},
+    {text: 'Datos',           url:'TomaDatos',      icon: 'assignment',         color: '#0000d4'},
+    { text: 'Opciones',       url: 'opciones',      icon: 'settings_suggest',   color: '#00d49f' },
   ];
 
   dropdown = [
-    {text: 'Diagnostico',        url:'/TomaDatos',              icon: './assets/icon/home.svg'},
-    {text: 'CIA',                url:'/TomaDatos',        icon: './assets/icon/grupos.svg'},
-    {text: 'Form',               url:'/TomaDatos',  icon: './assets/icon/programacion.svg'/*disabled: true*/},
+    { text: 'Diagnostico', url: '/TomaDatos', icon: './assets/icon/home.svg' },
+    { text: 'CIA', url: '/TomaDatos', icon: './assets/icon/grupos.svg' },
+    { text: 'Form', url: '/TomaDatos', icon: './assets/icon/programacion.svg'/*disabled: true*/ },
   ];
 }
- 
+
 

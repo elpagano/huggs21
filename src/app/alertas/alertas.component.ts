@@ -35,6 +35,7 @@ export class AlertasComponent {
       this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
     }
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
+    console.log(this.alertas)
   }
 
   addItem(texto: string) {
@@ -49,6 +50,9 @@ export class AlertasComponent {
     // Persist a document id
     const item: Alert = { id, userId, grupo_id, lugar, texto, estado, foto, fecha };
     this.alertasCollection.doc(id).set(item);
+    setTimeout(() => {
+      this.alerta = false;
+    }, 50000);
   }
 
   close() {

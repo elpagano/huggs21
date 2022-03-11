@@ -2,3 +2,57 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.btngeneral {
+    color: #fff; 
+    background-color: #17a2b8; 
+    padding: 0.8vh; 
+    margin: 1vh;
+}
+
+.btngeneralRedondeado {
+    color: #fff; 
+    background-color: #17a2b8; 
+    border: 3px solid #fff; 
+    border-radius: 2vh; 
+    padding: 0.8vh; 
+    margin: 1vh;
+}
+.btngeneralRedondeado:hover {
+    box-shadow: #041d21 0 0 0.5vh 0.5vh;
+}
+
+.btngeneralRedondeadoPlano {
+    color: #fff; 
+    background-color: #17a2b8; 
+    border: 3px solid #fff; 
+    border-radius: 2vh; 
+    display: table-cell;
+}
+.btngeneralRedondeadoPlano:hover {
+    box-shadow: #041d21 0 0 0.5vh 0.5vh;
+}
+
+.btnRechazado {
+    color: #fff; 
+    background-color: #bc8400; 
+    border: 3px solid #fff; 
+    border-radius: 2vh; 
+    display: table-cell;      
+    vertical-align: top;
+}
+.btnRechazado:hover {
+    box-shadow: #573d01 0 0 0.5vh 0.5vh;
+}
+
+.btnAtender {
+    color: #fff; 
+    background-color: #01a630; 
+    border: 3px solid #fff; 
+    border-radius: 2vh; 
+    display: table-cell;      
+    vertical-align: top;
+}
+.btnAtender:hover {
+    box-shadow: #004413 0 0 0.5vh 0.5vh;
+}

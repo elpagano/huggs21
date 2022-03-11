@@ -10,33 +10,48 @@
   <ng-template #elseBlock>
     Ver mis Grupos.
   </ng-template>
-  <ngb-alert *ngIf="msgCreado" type="primary" (closed)="closemsgGroup()">
-    <strong>Atención!</strong> su grupo fué creado
-  </ngb-alert>
   <div *ngIf="tipoUsuario">
-    <button type="button" class="btn btn-info" (click)="addGroup(msgValGrup)">Nuevo Grupo</button>
+    <button type="button" class="btngeneralRedondeado" (click)="addGroup(msgValGrup)">Nuevo Grupo</button>
     <input type="text" placeholder="Nombre grupo max 30 caracteres" (keyup.enter)="addGroup(msgValGrup)"
       [(ngModel)]="msgValGrup" maxlength="30" />
   </div>
+
+  <ngb-alert *ngIf="msgCreado" type="primary" (closed)="closemsgGroup()">
+    <strong>El nuevo grupo {{msgValGrup}} fué creado</strong>
+  </ngb-alert>
+  <ngb-alert *ngIf="this.msgERRORGrup " [dismissible]="false">
+    <strong>Atención!</strong> El nombre no puede estar vacio
+  </ngb-alert>
 
   <div>
     <ul>
       <li *ngFor="let group of groups | async">
         <div>
           Grupo:
-           {{ group.nameGroup }}
-           <button type="button" (click)="selectGroup(group.id, group.nameGroup)" class="menuLink">
-            <samp *ngIf="tipoUsuario">
-              <span class="material-icons" title="Agregar Usuarios.">manage_accounts</span>
+          <span  style="color:#10012e "> {{ group.nameGroup }} </span>
+           <button (click)="selectGroup(group.id, group.nameGroup)" *ngIf="tipoUsuario" style="margin: 1vh; background: #fff; border-color: #5500ff; border-radius: 1vh; max-height: 5vh;">
+            <samp>
+              <span  style="color:#5500ff;" class="material-icons" title="Agregar Usuarios.">manage_accounts</span>
             </samp>
           </button>
-          <button *ngIf="tipoUsuario" (click)="deleteGroup(group.id)" style="color:#ff0064">
-            <span style="color:#ff0064" class="material-icons">delete_forever</span>
+          <button *ngIf="tipoUsuario" (click)="deleteGroupConfirm(content, group.id)" style="margin: 1vh; background: #fff; border-color: #ff0000; border-radius: 1vh; max-height: 5vh;">
+            <span style="color:#ff0000" class="material-icons">delete_forever</span>
           </button>
         </div>
       </li>
     </ul>
   </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">¿Está seguro que quiere eliminar el grupo?</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-light" (click)="deleteGroup()">Eliminar Grupo</button>
+    </div>
+  </ng-template>
 
   <div *ngIf="selectAssUsers">
     <div>

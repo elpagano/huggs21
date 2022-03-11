@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { delay, Observable, timeout } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Groups } from "./grupo";
 import { Usuario } from "../login/user";
 import { OpcionesService } from "../services/opciones.service";
 import { Opciones } from "../opciones/opcionesInt";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-grupo',
@@ -21,6 +22,7 @@ export class GrupoComponent implements OnInit {
 
   auth = getAuth();
   msgValGrup = '';
+  msgERRORGrup = false;
   msgUsuario = '';
   msgCreado = false;
   selectedGrupid = '';
@@ -29,9 +31,11 @@ export class GrupoComponent implements OnInit {
   tipoUsuario = false;
   arrUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
   selectedUsers: Array<{ id: string, nombre: string, nomLowercase: string }> = [];
+  idgrupo = '';
 
   constructor(private readonly afs: AngularFirestore,
-    private OpcionesService: OpcionesService,) {
+    private OpcionesService: OpcionesService, 
+    private modalService: NgbModal, ) {
 
     this.grupoCollection = afs.collection<Groups>('groups');
     this.groups = this.grupoCollection.valueChanges({ idField: 'groups' });
@@ -45,6 +49,7 @@ export class GrupoComponent implements OnInit {
 
   closemsgGroup() {
     this.msgCreado = false;
+    this.msgValGrup = '';
   }
 
   addGroup(texto: string) {
@@ -55,17 +60,43 @@ export class GrupoComponent implements OnInit {
     const nameGroup = texto;
     const users = this.selectedUsers;
     const estado = "1";
-    const fecha = Date()
+    const fecha = Date();
     const item: Groups = { id, creator_uid, nameGroup, estado, fecha, users };
-    this.grupoCollection.doc(id).set(item);
+
+    if (nameGroup === "") {
+      this.msgERRORGrup = true;
+      this.msgCreado = false;
+      setTimeout(() => {
+        this.msgERRORGrup = false;
+        this.msgValGrup = '';
+      }, 3000);
+    } 
+    else {
+      this.grupoCollection.doc(id).set(item);
+      setTimeout(() => {
+        this.msgERRORGrup = false;
+        this.msgCreado = false;
+        this.msgValGrup = '';
+      }, 3000);
+    }
   }
 
-  deleteGroup(id: string) {
+  deleteGroup() {
     try {
-      this.afs.collection('groups').doc(id).delete();
+     this.afs.collection('groups').doc(this.idgrupo).delete();
+     this.deleteGroupConfirmClose();
     } catch (error) {
-      console.log("deleteDoc", error)
+      console.log("deleteDoc", error);
     }
+  }
+  
+  deleteGroupConfirm(content: any, id: string) {
+    this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
+    this.idgrupo = id;
+  }
+
+  deleteGroupConfirmClose() {
+    this.modalService.dismissAll();
   }
 
   selectGroup(id: string, nameGroup: string): void {

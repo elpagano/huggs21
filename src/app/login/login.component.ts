@@ -7,18 +7,25 @@ import { Query } from "firebase/firestore";
 import { delay, Observable } from 'rxjs';
 import { getAuth } from "firebase/auth";
 import { Usuario } from "./user"
+import { GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, GithubAuthProvider } from "firebase/auth";
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+
+
 export class LoginComponent {
   items: Observable<Usuario[]>;
   private itemsCollection: AngularFirestoreCollection<Usuario>;
 
   title = 'huggs';
   showLogin = false;
+
+
 
   //auth = getAuth();
   constructor(public router: Router, public auth: AngularFireAuth, private readonly afs: AngularFirestore) {
@@ -27,8 +34,8 @@ export class LoginComponent {
   }
 
   login() {
-    let provider = new firebase.auth.GoogleAuthProvider();
-    const AuthProvider = this.auth.signInWithPopup(provider)
+    var googleProvider = new firebase.auth.GoogleAuthProvider();
+    const AuthProvider = this.auth.signInWithPopup(googleProvider)
       .then((result) => {
         let token = result.additionalUserInfo?.isNewUser
         if (token) {
@@ -37,6 +44,16 @@ export class LoginComponent {
       })
   }
 
+  loginFace() {
+    var facebookProvider = new firebase.auth.FacebookAuthProvider();
+    const AuthProvider = this.auth.signInWithPopup(facebookProvider)
+      .then((result) => {
+        let token = result.additionalUserInfo?.isNewUser
+        if (token) {
+          this.addItem()
+        }
+      })
+  }
 
   logout() {
     this.auth.signOut();

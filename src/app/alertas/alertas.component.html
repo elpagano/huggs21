@@ -1,10 +1,11 @@
 <div>
-  <div style="width: 20rem;">
-    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)">
-      <img src="assets/icon/alertasSend.svg">
-    </a>
-    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal"
-      size="22" maxlength="30" />
+  <div>
+    <!-- margin: 1vh;  padding: 1px; -->
+    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)" style="width: 8rem; color: #fff; background-color: #ff0064; 
+      border: 3px solid #fff; border-radius: 2vh; display: table-cell;
+      vertical-align: top;"><span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>¡ALERTA!</a>
+    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal" size="22"
+      maxlength="30" />
     <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
       <strong>Atención!</strong> su alerta fué enviada
     </ngb-alert>
@@ -12,11 +13,18 @@
   <div *ngFor="let item of alertas | async" style="width: 20rem;">
     <a alt="Alerta" (click)="onSelect(item.id)">
       <div>
-        <img src="assets/icon/alertasUpdate.svg">
-        <button (click)="atenderAlerta(item.id)">Atender</button>
-        <button (click)="deleteDoc(item.id)">Eliminar</button>
-        <button (click)="rechazarAlerta(item.id)">Rechazar</button>
-        <button (click)="updateAlerta(item.id, msgVal)">Actualizar</button>
+        <button (click)="atenderAlerta(item.id)" class="btnAtender">
+          <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
+          Atender</button>
+        <button (click)="deleteDoc(item.id)" class="btngeneralRedondeadoPlano">
+          <span class="material-icons" title="Agregar Usuarios.">mode_edit</span>
+          Eliminar</button>
+        <button (click)="rechazarAlerta(item.id)" class="btnRechazado">
+          <span class="material-icons" title="Agregar Usuarios.">do_disturb_on</span>
+          Rechazar</button>
+        <button (click)="updateAlerta(item.id, msgVal)" class="btngeneralRedondeadoPlano">
+          <span class="material-icons" title="Agregar Usuarios.">sync</span>
+          Actualizar</button>
         <div>
           {{item.texto}}
           Estado {{item.estado}}
