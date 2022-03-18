@@ -18,6 +18,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 0.8vh; 
     margin: 1vh;
 }
+
 .btngeneralRedondeado:hover {
     box-shadow: #041d21 0 0 0.5vh 0.5vh;
 }
@@ -45,14 +46,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     box-shadow: #573d01 0 0 0.5vh 0.5vh;
 }
 
-.btnAtender {
+
+.btnCerrar {
     color: #fff; 
-    background-color: #01a630; 
+    background-color: #9d00bc; 
     border: 3px solid #fff; 
     border-radius: 2vh; 
     display: table-cell;      
     vertical-align: top;
 }
-.btnAtender:hover {
-    box-shadow: #004413 0 0 0.5vh 0.5vh;
+.btnCerrar:hover {
+    box-shadow: #9d00bc 0 0 0.5vh 0.5vh;
 }
+
+
+/*
+Extra small devices (portrait phones, less than 576px)
+No media query since this is the default in Bootstrap
+
+Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+Large devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+ Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... } 
+
+*/

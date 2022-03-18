@@ -1,26 +1,54 @@
-<div  class="row"  >
-  <div class="col-10">
-    <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)"class="alertaBtn"><span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>¡ALERTA!</a>
-  </div>
-  <div class="col-2">
-    <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal" size="22"
-      maxlength="30" />
-    <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
-      <strong>Atención!</strong> su alerta fué enviada
-    </ngb-alert>
-  </div>
-  <div *ngFor="let item of alertas | async" style="width: 20rem;">
-    <a alt="Alerta" (click)="onSelect(item.id)">
-      <div>
-        <button (click)="atenderAlerta(item.id)" class="btnAtender">
-          <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
-          Atender</button>
-        <div>
-          {{item.texto}}
-          Estado {{item.estado}}
-          <img src={{item.foto}} style="max-height: 50px;">
-        </div>
-      </div>
-    </a>
+<div class="container">
+  <div class="row" >
+
+    <div class="col-3">
+      <button class="alertaBtn" (click)="openBackDropCustomClass(content)">
+        <span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>
+        ALERTA
+      </button>
+    </div>
+
+    <div class="col-3">
+      <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
+        <strong>Atención!</strong> su alerta fué enviada
+      </ngb-alert>
+    </div>
+
+    <div class="col">
+      <button (click)="atenderAlerta(id)" class="btnAtender">
+        <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
+        Atender
+      </button>
+    </div>
+
+    <div class="col" >
+      {{text}}
+    </div>
+    <div class="col">
+      Estado {{estado}}
+    </div>
+    <div class="col">
+      <img src={{foto}} style="max-height: 40px;">
+    </div>
   </div>
 </div>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title">Generar Alerta</h1>
+    <button type="button" class="btnCerrar" aria-label="Close" (click)="cerrarPop()">X</button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      <input type="text" placeholder="máximo 30 caracteres" (keyup.enter)="addItem(msgVal)" [(ngModel)]="msgVal"
+        size="22" maxlength="30" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btnCerrar" (click)="cerrarPop()">DESCARTAR</button>
+    <button type="button" class="alertaBtn" (click)="addItem(msgVal)">ALERTA</button>
+  </div>
+</ng-template>
+ 

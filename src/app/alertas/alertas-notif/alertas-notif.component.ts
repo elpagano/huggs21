@@ -6,11 +6,12 @@ import { Observable } from 'rxjs';
 import { Router } from "@angular/router";
 import { getAuth } from "firebase/auth";
 import { FormControl } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-alertas-notif',
   templateUrl: './alertas-notif.component.html',
-  styleUrls: ['./alertas-notif.component.css']
+  styleUrls: ['../alertas.component.css']
 })
 export class AlertasNotifComponent implements OnInit {
 
@@ -20,24 +21,39 @@ export class AlertasNotifComponent implements OnInit {
   texto = new FormControl('');
   msgVal = '';
   alerta = false;
-  selectedAlerta = ''; //un valor de entrada para el input de autenticación
+  text = '';
+  estado = '';
+  foto = '';
+  id = '';
+  fecha = '';
+  hoy = Date();
 
   constructor(private AlertaService: AlertaService,
     private readonly afs: AngularFirestore,
-    public router: Router) {
+    public router: Router,
+    private modalService: NgbModal) {
+
     if (router.url == '/alertas') {
       this.alertasCollection = afs.collection<Alert>('alertas');
     } else {
       this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
     }
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
+    this.alertas.forEach(element => {
+      console.log('element ', element[0].foto)
+      this.text = element[0].texto
+      this.estado = element[0].estado
+      this.foto = element[0].foto
+      this.id =  element[0].id
+      this.fecha =  element[0].fecha
+    });
   }
 
   ngOnInit(): void {
   }
 
-
   addItem(texto: string) {
+    console.log(texto)
     this.alerta = true;
     const id = this.afs.createId();
     const grupo_id = 'aa';
@@ -49,17 +65,15 @@ export class AlertasNotifComponent implements OnInit {
     // Persist a document id
     const item: Alert = { id, userId, grupo_id, lugar, texto, estado, foto, fecha };
     this.alertasCollection.doc(id).set(item);
+    this.msgVal = ""; // limpio el mensaje
     setTimeout(() => {
       this.alerta = false;
     }, 50000);
+    this.modalService.dismissAll();
   }
 
   close() {
     this.alerta = false;
-  }
-
-  onSelect(dato: string): void {
-    this.selectedAlerta = dato;
   }
 
   atenderAlerta(key: string): void {
@@ -71,5 +85,13 @@ export class AlertasNotifComponent implements OnInit {
     }
   }
 
+  openBackDropCustomClass(content: any) {
+    this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
+  }
 
+  cerrarPop() {
+    console.log('cerrarPop');
+    this.modalService.dismissAll();
+    this.msgVal = ""; // limpio el mensaje
+  }
 }
