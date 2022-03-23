@@ -19,8 +19,6 @@ export class AlertasComponent {
 
   alertas: Observable<Alert[]>;
   auth = getAuth();
-
-
   private alertasCollection: AngularFirestoreCollection<Alert>;
   texto = new FormControl('');
   msgVal = '';
@@ -32,7 +30,7 @@ export class AlertasComponent {
     if (router.url == '/alertas') {
       this.alertasCollection = afs.collection<Alert>('alertas');
     } else {
-      this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
+      this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limitToLast(1).orderBy('fecha'));
     }
     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
   }

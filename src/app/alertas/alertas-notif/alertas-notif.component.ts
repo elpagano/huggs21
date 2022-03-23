@@ -15,7 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AlertasNotifComponent implements OnInit {
 
-  alertas: Observable<Alert[]>;
+  alertas: Observable<Alert[]> | undefined;
   auth = getAuth();
   private alertasCollection: AngularFirestoreCollection<Alert>;
   texto = new FormControl('');
@@ -32,13 +32,12 @@ export class AlertasNotifComponent implements OnInit {
     private readonly afs: AngularFirestore,
     public router: Router,
     private modalService: NgbModal) {
-
-    if (router.url == '/alertas') {
-      this.alertasCollection = afs.collection<Alert>('alertas');
+  if (this.router.url == '/alertas') {
+      this.alertasCollection = this.afs.collection<Alert>('alertas');
     } else {
-      this.alertasCollection = afs.collection<Alert>('alertas', ref => ref.limit(1).orderBy('fecha'));
-    }
-    this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
+      this.alertasCollection = this.afs.collection<Alert>('alertas', ref => ref.orderBy('fecha').limitToLast(1) );
+    }    
+     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
     this.alertas.forEach(element => {
       console.log('element ', element[0].foto)
       this.text = element[0].texto
@@ -68,7 +67,7 @@ export class AlertasNotifComponent implements OnInit {
     this.msgVal = ""; // limpio el mensaje
     setTimeout(() => {
       this.alerta = false;
-    }, 50000);
+    }, 2000);
     this.modalService.dismissAll();
   }
 

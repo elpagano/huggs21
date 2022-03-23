@@ -1,10 +1,12 @@
 
 .imgpers {
-    height: 200px;
-  }
+  height: 200px;
+}
+
 span{
   vertical-align: middle;
 }
+
 .alertaBtn{
   width: 8rem; 
   color: #fff; 
@@ -12,9 +14,8 @@ span{
   border: 3px solid #fff; 
   border-radius: 2vh; 
   display: table-cell;
-  vertical-align: top;
+  vertical-align: middle;
 }
-
 
 .alertaBtn:hover {
   box-shadow: #4b0202 0 0 0.5vh 0.5vh;
@@ -33,3 +34,27 @@ span{
   box-shadow: #004413 0 0 0.5vh 0.5vh;
 }
 
+.fondoAlertas{  
+  background-color: #d3edff;
+  border: 1px solid rgba(111, 0, 0, 0.312);
+  display: flex;  
+  border-radius: 1vh;
+}
+
+.mensaje{
+  background-color: #ffffff;
+  border-radius: 1vh;
+  padding: 5px;
+  margin-left: 1vh;
+  display: flex;
+  box-shadow: #4b0202 0 0 0.3vh 0;
+}
+
+.estado{
+  background-color: #ffffff;
+  border-radius: 1vh;
+  padding: 5px;
+  margin-left: 1vh;
+  display: flex;
+  box-shadow: #4b0202 0 0 0.3vh 0;
+}

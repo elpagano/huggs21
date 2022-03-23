@@ -1,40 +1,25 @@
-<div class="container">
-  <div class="row" >
-
-    <div class="col-3">
-      <button class="alertaBtn" (click)="openBackDropCustomClass(content)">
-        <span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>
-        ALERTA
-      </button>
-    </div>
-
-    <div class="col-3">
-      <ngb-alert *ngIf="alerta" type="primary" (closed)="close()">
-        <strong>Atención!</strong> su alerta fué enviada
-      </ngb-alert>
-    </div>
-
-    <div class="col">
-      <button (click)="atenderAlerta(id)" class="btnAtender">
-        <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
-        Atender
-      </button>
-    </div>
-
-    <div class="col" >
-      {{text}}
-    </div>
-    <div class="col">
-      Estado {{estado}}
-    </div>
-    <div class="col">
-      <img src={{foto}} style="max-height: 40px;">
-    </div>
+<div class="fondoAlertas">
+  <div style="display: flex; justify-content: right; width: 100%; padding: 5px; ">
+    <button class="alertaBtn" (click)="openBackDropCustomClass(content)">
+      <span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>
+      ALERTA
+    </button>
+    <button (click)="atenderAlerta(id)" class="btnAtender" *ngIf="estado==='1'" >
+      <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
+      Atender
+    </button>
+    <span class="mensaje" *ngIf="estado ==='1' && text !==''" >
+      Mensaje: {{text}}
+    </span>
   </div>
 </div>
 
-
-
+  <div *ngIf="alerta">
+    <ngb-alert type="danger" (closed)="close()">
+      <strong>Atención!</strong> su alerta fué enviada
+    </ngb-alert>
+  </div>
+  
 <ng-template #content let-modal>
   <div class="modal-header">
     <h1 class="modal-title">Generar Alerta</h1>
@@ -51,4 +36,3 @@
     <button type="button" class="alertaBtn" (click)="addItem(msgVal)">ALERTA</button>
   </div>
 </ng-template>
- 
