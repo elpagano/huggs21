@@ -1,6 +1,5 @@
 <div>
   <div>
-    <!-- margin: 1vh;  padding: 1px; -->
     <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)" style="width: 8rem; color: #fff; background-color: #ff0064; 
       border: 3px solid #fff; border-radius: 2vh; display: table-cell;
       vertical-align: top;"><span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>¡ALERTA!</a>
@@ -10,27 +9,22 @@
       <strong>Atención!</strong> su alerta fué enviada
     </ngb-alert>
   </div>
-  <div *ngFor="let item of alertas | async" style="width: 20rem;">
-    <a alt="Alerta" (click)="onSelect(item.id)">
-      <div>
-        <button (click)="atenderAlerta(item.id)" class="btnAtender">
-          <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
-          Atender</button>
-        <button (click)="deleteDoc(item.id)" class="btngeneralRedondeadoPlano">
-          <span class="material-icons" title="Agregar Usuarios.">mode_edit</span>
-          Eliminar</button>
-        <button (click)="rechazarAlerta(item.id)" class="btnRechazado">
-          <span class="material-icons" title="Agregar Usuarios.">do_disturb_on</span>
-          Rechazar</button>
-        <button (click)="updateAlerta(item.id, msgVal)" class="btngeneralRedondeadoPlano">
-          <span class="material-icons" title="Agregar Usuarios.">sync</span>
-          Actualizar</button>
-        <div>
-          {{item.texto}}
-          Estado {{item.estado}}
-          <img src={{item.foto}} style="max-height: 50px;">
-        </div>
-      </div>
-    </a>
+  <div *ngFor="let item of alertas | async">
+    <div class="mensaje" >
+      <button (click)="atenderAlerta(item.id)" class="btnAtender">
+        <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
+        Atender</button>
+      <button (click)="deleteDoc(item.id)" class="btngeneralRedondeadoPlano">
+        <span class="material-icons" title="Agregar Usuarios.">mode_edit</span>
+        Eliminar</button>
+      <button (click)="rechazarAlerta(item.id)" class="btnRechazado">
+        <span class="material-icons" title="Agregar Usuarios.">do_disturb_on</span>
+        Rechazar</button>
+      <button (click)="updateAlerta(item.id, msgVal)" class="btngeneralRedondeadoPlano">
+        <span class="material-icons" title="Agregar Usuarios.">sync</span>
+        Actualizar</button>
+        {{item.texto}}
+        <img src={{item.foto}} style="max-height: 50px;">
+    </div>
   </div>
 </div>
