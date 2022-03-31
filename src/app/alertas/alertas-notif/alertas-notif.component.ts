@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { getAuth } from "firebase/auth";
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-alertas-notif',
@@ -26,25 +27,35 @@ export class AlertasNotifComponent implements OnInit {
   foto = '';
   id = '';
   fecha = '';
-  hoy = Date();
+  dayAct =  (moment(new Date())).format('DD-MMM-YYYY HH:mm:ss')
+  dayMonthYear =  (moment(new Date())).format('DD-MMM-YYYY')
 
   constructor(private AlertaService: AlertaService,
     private readonly afs: AngularFirestore,
     public router: Router,
     private modalService: NgbModal) {
-  if (this.router.url == '/alertas') {
+    if (this.router.url == '/alertas') {
       this.alertasCollection = this.afs.collection<Alert>('alertas');
     } else {
-      this.alertasCollection = this.afs.collection<Alert>('alertas', ref => ref.orderBy('fecha').limitToLast(1) );
-    }    
-     this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
+      this.alertasCollection = this.afs.collection<Alert>('alertas', ref => ref.orderBy('fecha').limitToLast(1));
+    }
+    this.alertas = this.alertasCollection.valueChanges({ idField: 'customID' })
     this.alertas.forEach(element => {
-      console.log('element ', element[0].foto)
-      this.text = element[0].texto
-      this.estado = element[0].estado
-      this.foto = element[0].foto
-      this.id =  element[0].id
-      this.fecha =  element[0].fecha
+      let fechaMonth = moment(element[0].fecha.toLocaleString( )).format('DD-MMM-YYYY')
+
+       if(fechaMonth === this.dayMonthYear ){
+        this.text = element[0].texto
+        this.estado = element[0].estado
+        this.foto = element[0].foto
+        this.id = element[0].id
+        this.fecha = element[0].fecha
+      }else{
+        this.text = ''
+        this.estado = ''
+        this.foto = ''
+        this.id = ''
+        this.fecha = ''
+      }
     });
   }
 
@@ -85,7 +96,7 @@ export class AlertasNotifComponent implements OnInit {
   }
 
   openBackDropCustomClass(content: any) {
-    this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
+    this.modalService.open(content, { backdropClass: 'light-blue-backdrop' });
   }
 
   cerrarPop() {

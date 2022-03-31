@@ -1,4 +1,5 @@
-<div *ngIf="auth.user | async as user; else showLogin" >
+<div *ngIf="auth.user | async as user; else showLogin" 
+class="navbar navbar-expand navbar-light ">
     Hola {{ user.displayName }}
     <a alt="Alerta" (click)="logout()" class="btngeneralRedondeado">Salir!</a>
   </div>

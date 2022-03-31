@@ -1,17 +1,58 @@
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Modal title</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">X</button>
-    </div>
-    <div class="modal-body">
-      <p>One fine body&hellip;</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-      <button type="button" class="btn btn-light" (click)="ejemploPOP('Close click')">Ejemplo</button>
+<div>
+  <div class="form-group">
+    <label>{{programacionesARR.grupo_nombre}} </label>
+    <label>Lugar </label>
+    <input type="lugar" class="form-control" [(ngModel)]="programacionesARR.lugar" />
+    <label>Observaciones </label>
+    <textarea class="form-control" [(ngModel)]="programacionesARR.observ" rows="3"></textarea>
+    <label>Agregar Terapias</label>
+    <input type="lugar" class="form-control" [(ngModel)]="programacionesARR.Terapias" />
 
+    <div class="row cuadrocolor">
+      <div class="col-12">
+        Rango de la programación
+      </div>
+      <div class="col-12">
+        *Para seleccionar un rango de mas de dos meses mantenga la tecla control presionada
+      </div>
+      <div class="col-12">
+        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+          outsideDays="hidden">
+        </ngb-datepicker>
+        <ng-template #t let-date let-focused="focused">
+          <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+            [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+            (mouseleave)="hoveredDate = null">
+            {{ date.day }}
+          </span>
+        </ng-template>
+      </div>
     </div>
-  </ng-template>
-   
-  <button class="btn btn-outline-primary mb-2 me-2" (click)="openBackDropCustomClass(content)">Modal</button>
- 
+  </div>
+  <div class="col s12">
+    <ng-template [ngIf]="find">
+      <button type="button" class="btngeneralRedondeado" (click)="updateProgramacion()">
+        Actualizar</button>
+    </ng-template>
+    <ng-template [ngIf]="!find">
+      <button type="button" class="btngeneralRedondeado" (click)="createProgramacion()">
+        Cargar Datos</button>
+    </ng-template>
+  </div>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-light" (click)="ejemploPOP('Close click')">Ejemplo</button>
+
+  </div>
+</ng-template>

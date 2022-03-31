@@ -4,7 +4,7 @@
       <span class="material-icons" title="Agregar Usuarios.">crisis_alert</span>
       ALERTA
     </button>
-    <button (click)="atenderAlerta(id)" class="btnAtender" *ngIf="estado==='1'" >
+    <button (click)="atenderAlerta(id)" class="btnAtender" *ngIf="estado === '1'" >
       <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
       Atender
     </button>
@@ -13,7 +13,6 @@
     </span>
   </div>
 </div>
-
   <div *ngIf="alerta">
     <ngb-alert type="danger" (closed)="close()">
       <strong>Atención!</strong> su alerta fué enviada

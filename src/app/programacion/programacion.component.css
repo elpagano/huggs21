@@ -7,4 +7,32 @@
   }
   .light-blue-backdrop {
     background-color: #fa2c3d;
+  }  
+  
+.cuadrocolor {
+  background-color: #ffffff;
+  border-radius: 0.5vh;
+  padding: 5px;
+  margin: 1vh;
+  display: flex;
+  box-shadow: #4b0202 0 0 0.3vh 0;   
+}
+
+  /* para el calendario */
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
   }

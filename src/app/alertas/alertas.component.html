@@ -1,4 +1,5 @@
-<div>
+<div class="container-fluid">
+
   <div>
     <a alt="Alerta" *ngIf="!alerta" (click)="addItem(msgVal)" style="width: 8rem; color: #fff; background-color: #ff0064; 
       border: 3px solid #fff; border-radius: 2vh; display: table-cell;
@@ -9,22 +10,33 @@
       <strong>Atención!</strong> su alerta fué enviada
     </ngb-alert>
   </div>
-  <div *ngFor="let item of alertas | async">
-    <div class="mensaje" >
-      <button (click)="atenderAlerta(item.id)" class="btnAtender">
-        <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
-        Atender</button>
-      <button (click)="deleteDoc(item.id)" class="btngeneralRedondeadoPlano">
-        <span class="material-icons" title="Agregar Usuarios.">mode_edit</span>
-        Eliminar</button>
-      <button (click)="rechazarAlerta(item.id)" class="btnRechazado">
-        <span class="material-icons" title="Agregar Usuarios.">do_disturb_on</span>
-        Rechazar</button>
-      <button (click)="updateAlerta(item.id, msgVal)" class="btngeneralRedondeadoPlano">
-        <span class="material-icons" title="Agregar Usuarios.">sync</span>
-        Actualizar</button>
-        {{item.texto}}
+
+  <div *ngFor="let item of alertas | async" class="mensaje">
+    <div class="row">
+      <div class="col-12">
+        <div class="row mensaje">
+          <div class="col-5"> 
+            Mensaje: {{ item.texto }}
+          </div>
+          <div class="col-7">
+             Fecha: {{ item.fecha | date:'medium' }}
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <button (click)="atenderAlerta(item.id)" class="btnAtender">
+          <span class="material-icons" title="Agregar Usuarios.">support_agent</span>
+          Atender </button>
+        <button (click)="deleteDoc(item.id)" class="btngeneralRedondeadoPlano">
+          <span class="material-icons" title="Agregar Usuarios.">mode_edit</span>
+          Eliminar </button>
+        <button (click)="rechazarAlerta(item.id)" class="btnRechazado">
+          <span class="material-icons" title="Agregar Usuarios.">do_disturb_on</span>
+          Rechazar </button>
+        <button (click)="updateAlerta(item.id, msgVal)" class="btngeneralRedondeadoPlano">
+          <span class="material-icons" title="Agregar Usuarios.">sync</span>
+          Actualizar </button>
         <img src={{item.foto}} style="max-height: 50px;">
+      </div>
     </div>
   </div>
-</div>

@@ -24,7 +24,7 @@
 <div class="container" class="fondo">
 
     <div class="row">
-      <div class="col-10"  >
+      <div class="col-10" *ngIf="auth.user | async as user;" >
       <app-menu></app-menu>      
     </div>
     <div class="col-2" >

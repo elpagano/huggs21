@@ -28,7 +28,7 @@ span{
   border: 3px solid #fff; 
   border-radius: 2vh; 
   display: table-cell;      
-  vertical-align: top;
+  vertical-align: middle;
 }
 .btnAtender:hover {
   box-shadow: #004413 0 0 0.5vh 0.5vh;
@@ -43,11 +43,11 @@ span{
 
 .mensaje{
   background-color: #ffffff;
-  border-radius: 1vh;
+  border-radius: 0.5vh;
   padding: 5px;
-  margin-left: 1vh;
+  margin: 1vh;
   display: flex;
-  box-shadow: #4b0202 0 0 0.3vh 0;
+  box-shadow: #4b0202 0 0 0.3vh 0;   
 }
 
 .estado{
