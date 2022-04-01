@@ -9,5 +9,5 @@ export interface Programacion {
     foto: string,
     fechaInicio: string,
     fechaFin: string,
-    Terapias: Terapia[]
+    Terapias: []
 } 

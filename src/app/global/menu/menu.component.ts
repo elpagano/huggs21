@@ -17,8 +17,8 @@ export class MenuComponent {
     { text: 'Programación',   url: '/programacion', icon: 'dashboard',          color: '#25f'/*disabled: true*/ },
     { text: 'Documentación',  url: 'documentacion', icon: 'snippet_folder',     color: '#5500ff' },
     { text: 'Alertas',        url: 'alertas',       icon: 'crisis_alert',       color: '#ff0064' },
-    {text: 'Metricas',        url:'metricas',       icon: 'pie_chart',          color: '#00bad4'},
-    {text: 'Datos',           url:'TomaDatos',      icon: 'assignment',         color: '#0000d4'},
+    { text: 'Metricas',       url:'metricas',       icon: 'pie_chart',          color: '#00bad4'},
+    { text: 'Datos',          url:'TomaDatos',      icon: 'assignment',         color: '#0000d4'},
     { text: 'Opciones',       url: 'opciones',      icon: 'settings_suggest',   color: '#00d49f' },
   ];
 

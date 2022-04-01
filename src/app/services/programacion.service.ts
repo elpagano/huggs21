@@ -29,4 +29,8 @@ export class ProgramacionService {
   addProgramacion(programacion: Programacion) {
     this.programacionesCollection.add(programacion);
   }
+
+  deleteProgramacion(id: string) {
+    //this.programacionesCollection.add(id);
+  }
 }
