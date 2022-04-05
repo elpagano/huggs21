@@ -18,6 +18,7 @@ import { MensajesComponent } from './mensajes/mensajes.component';
 import { MetricasComponent } from './metricas/metricas.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { ProgramacionComponent } from './programacion/programacion.component';
+import { AddComponent } from './programacion/add/add.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToItems = () => redirectLoggedInTo(['alertas']);
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'opciones', component: OpcionesComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }  },
   { path: 'permisos', component: PermisosComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }  },
   { path: 'programacion', component: ProgramacionComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }  },
+  { path: 'programacion/add', component: AddComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }  },
   { path: 'adminUsuario', component: GrupoAdminUsuarioComponent , canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin } },
   { path: '**', component: NotfoundComponent }
 ];

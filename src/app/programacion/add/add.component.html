@@ -1,0 +1,106 @@
+<div class="cuadrocolor">
+    <div class="form-group">
+        <div class="titulo">Agregar Programación</div>
+        <label>{{grupo_nombre}} </label>
+        <label>Lugar </label>
+        <input type="lugar" class="form-control" [(ngModel)]="lugar" />
+        <label>Observaciones </label>
+        <textarea class="form-control" [(ngModel)]="observ" rows="3"></textarea>
+        <label>Agregar Terapias</label>
+        <button type="button" class="btngeneralRedondeado" (click)="openPop(content)">
+            Cargar Datos
+        </button>
+        <div class="row" *ngFor="let item of terapias | async" class="mensaje">
+            <div class="col-3 ">
+                Nombre: {{ item.nombre }}
+            </div>
+            <div class="col-3">
+                Lugar: {{ item.lugar }}
+            </div>
+            <div class="col-6">
+                <!-- 
+              <button (click)="deleteProgramacion(item.id)" class="btngeneralRedondeadoPlano">
+                <span class="material-icons" title="Agregar Usuarios.">mode_edit</span>
+                Eliminar 
+              </button>
+              <button (click)="updateProgramacion(item.id)" class="btnRechazado">
+                <span class="material-icons" title="Agregar Usuarios.">do_disturb_on</span>
+                Actualizar 
+              </button> -->
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-12 titulo">
+                Rango de la programación
+            </div>
+            <div class="col-12">
+                *Para seleccionar un rango haga click en la fecha de inicio y click en la de fin
+            </div>
+            <div class="col-12">
+                <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+                    outsideDays="hidden">
+                </ngb-datepicker>
+            </div>
+            <ng-template #t let-date let-focused="focused">
+                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                    {{ date.day }}
+                </span>
+            </ng-template>
+        </div>
+        <div class="col s12">
+            <button type="button" class="btngeneralRedondeado" (click)="createProgramacion()">
+                Cargar Terapias
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h1 class="modal-title">Terapias</h1>
+        <button type="button" class="btnCerrar" aria-label="Close" (click)="cerrarPop()">X</button>
+    </div>
+    <div class="row" style="padding: 3vh;">
+        <div class="col-6" style="padding: 1vh; width: fit-content; font-weight: bold;">
+            Nombre Terapia
+        </div>
+        <div class="col-6" style="padding: 1vh; width: fit-content;">
+            <input type="text" placeholder="máximo 30 caracteres" [(ngModel)]="nombreTerapia" size="22"
+                maxlength="30" />
+        </div>
+        <div class="col-6" style="padding: 1vh; width: fit-content; font-weight: bold;">
+            Terapeuta
+        </div>
+        <div class="col-6" style="padding: 1vh; width: fit-content;">
+            <input type="text" placeholder="máximo 30 caracteres" [(ngModel)]="nombreTerapeuta" size="22"
+                maxlength="30" />
+        </div>
+        <div class="col-6" style="padding: 1vh;">
+            <div class="input-group">
+                Fecha desde <input class="form-control" placeholder="yyyy-mm-dd" name="dp" 
+                    [(ngModel)]="desdeTerapia" ngbDatepicker  #d="ngbDatepicker"  >
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+            </div>
+        </div>
+        <div class="col-6" style="padding: 1vh;">
+            <div class="input-group">
+                Fecha Hasta <input class="form-control" placeholder="yyyy-mm-dd" name="dp" 
+                [(ngModel)]="hastaTerapia" ngbDatepicker #dE="ngbDatepicker">
+                <button class="btn btn-outline-secondary calendar" (click)="dE.toggle()" type="button"></button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btnCerrar" (click)="cerrarPop()">DESCARTAR</button>
+        <button type="button" class="prog" (click)="addTerapia()">Agregar</button>
+    </div>
+</ng-template>
+
+<div *ngIf="errorFecha">
+    <ngb-alert type="danger" (closed)="close()">
+      <strong>Atención!</strong> su alerta fué enviada
+    </ngb-alert>
+  </div>
+  

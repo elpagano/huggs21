@@ -36,7 +36,8 @@ import { MetricasComponent } from './metricas/metricas.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { ProgramacionComponent } from './programacion/programacion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms"; //this to use ngModule
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AddComponent } from './programacion/add/add.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms"; //this to use
     MensajesComponent,
     MetricasComponent,
     PermisosComponent,
-    ProgramacionComponent
+    ProgramacionComponent,
+    AddComponent,
   ],
   imports: [
     BrowserModule,

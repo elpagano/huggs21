@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Programacion } from '../programacion/programacion';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
@@ -13,7 +12,7 @@ export class ProgramacionService {
   private programacionesCollection: AngularFirestoreCollection<Programacion>;
   programaciones = new Observable<Programacion[]>();
 
-  constructor(private readonly afs: AngularFirestore, private http: HttpClient) {
+  constructor(private readonly afs: AngularFirestore) {
     this.programacionesCollection = afs.collection<Programacion>('programaciones');
     this.programaciones = this.programacionesCollection.valueChanges({ idField: 'customID' })
   }
@@ -31,6 +30,10 @@ export class ProgramacionService {
   }
 
   deleteProgramacion(id: string) {
-    //this.programacionesCollection.add(id);
+    try {
+      this.afs.collection('programaciones').doc(id).delete();
+    } catch (error) {
+      console.log("deleteProgramacion", error)
+    }
   }
 }
