@@ -4,14 +4,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from "@angular/router";
 import { Programacion } from "../programacion";
 import { getAuth, } from "firebase/auth";
-import { NgbDate, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbCalendar, NgbDateStruct, NgbInputDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
-  styleUrls: ['../programacion.component.css']
+  styleUrls: ['../programacion.component.css'],
+  providers: [NgbInputDatepickerConfig]  // add config to the component providers
 })
 export class AddComponent implements OnInit {
 
@@ -31,34 +32,42 @@ export class AddComponent implements OnInit {
   observ = '';
   grupo_nombre = '';
 
-  terapias: any =  [];
+  terapias: any = [];
   nombreTerapia = '';
   nombreTerapeuta = '';
-  
-  hoveredDate: NgbDate | null = null;
-  fromDate: NgbDate;
-  toDate: NgbDate | null = null;
-  
-  desdeTerapia!: NgbDateStruct;
-  hastaTerapia!: NgbDateStruct;
-  errorFecha = true;
 
+  fromTerapy!: NgbDateStruct;
+  toTerapy!: NgbDateStruct;
+
+  fromProg!: NgbDateStruct;
+  toProg!: NgbDateStruct;
+  errorFecha = 0;
+
+ 
   private programacionesCollection: AngularFirestoreCollection<Programacion>;
   programaciones = new Observable<Programacion[]>();
 
   constructor(private afs: AngularFirestore, private modalService: NgbModal,
-    public router: Router, private calendar: NgbCalendar) {      
+    public router: Router, private calendar: NgbCalendar,
+    config: NgbInputDatepickerConfig) {
     this.programacionesCollection = afs.collection<Programacion>('programaciones');
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
+   
+/*     config.minDate = {year: 2022, month: 5, day: 1};
+    config.maxDate = {year: 2099, month: 12, day: 31};
+    config.outsideDays = 'hidden';
+    config.placement = 'top-left';
+   */
+  }
+
+  compareDates(){
+      console.log('compareDates');
+    if (this.toProg <= this.fromProg) {
+      this.toProg = this.fromProg
+      this.errorFecha = 1;
+    }
   }
 
   ngOnInit(): void {
-    const todate = this.toDate 
-
-    if (this.desdeTerapia >= this.fromDate ) {
-      this.errorFecha = false;
-    }
   }
 
   createProgramacion() {
@@ -68,8 +77,8 @@ export class AddComponent implements OnInit {
     let userId = this.auth.currentUser?.uid || '';
     const foto = this.auth.currentUser?.photoURL || '';
     const observ = this.observ;
-    const fechaInicio = this.toDate?.day + '/' + this.toDate?.month + '/' + this.toDate?.year;
-    const fechaFin = this.fromDate?.day + '/' + this.fromDate?.month + '/' + this.fromDate?.year;
+    const fechaInicio = this.fromTerapy?.day + '/' + this.fromTerapy?.month + '/' + this.fromTerapy?.year;
+    const fechaFin = this.toTerapy?.day + '/' + this.toTerapy?.month + '/' + this.toTerapy?.year;
     const grupo_nombre = this.grupo_nombre
     const terapias: any = [];
     // Persist a document id
@@ -89,29 +98,6 @@ export class AddComponent implements OnInit {
     this.modalService.open(content, { backdropClass: 'light-blue-backdrop' });
   }
 
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
-  }
-
-  isHovered(date: NgbDate) {
-    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
-  }
-
-  isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  isRange(date: NgbDate) {
-    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
-  }
-
   openPop(content: any) {
     this.modalService.open(content, { backdropClass: 'light-blue-backdrop' });
   }
@@ -123,7 +109,7 @@ export class AddComponent implements OnInit {
     this.msgVal = ""; // limpio el mensaje
   }
 
-  addTerapia(){
+  addTerapia() {
     this.terapias.push({
       nombreTerapia: this.nombreTerapia,
       nombreTerapeuta: this.nombreTerapeuta
@@ -134,6 +120,6 @@ export class AddComponent implements OnInit {
   }
 
   close() {
-    this.errorFecha = false;
+    this.errorFecha = 0;
   }
 }
