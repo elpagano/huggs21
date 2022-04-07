@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from "@angular/router";
 import { Programacion } from "../programacion";
 import { getAuth, } from "firebase/auth";
-import { NgbDate, NgbCalendar, NgbDateStruct, NgbInputDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbCalendar, NgbDateStruct, NgbInputDatepickerConfig, NgbDateParserFormatter,  } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
@@ -21,9 +21,8 @@ export class AddComponent implements OnInit {
   find = true;
   abrir = false;
   programacionesARR!: Programacion;
-  msgVal = '';
-
   colecciones!: Programacion;
+  msgVal = '';
 
   grupo_id = '';
   lugar = '';
@@ -43,32 +42,37 @@ export class AddComponent implements OnInit {
   toProg!: NgbDateStruct;
   errorFecha = 0;
 
- 
+
   private programacionesCollection: AngularFirestoreCollection<Programacion>;
   programaciones = new Observable<Programacion[]>();
 
   constructor(private afs: AngularFirestore, private modalService: NgbModal,
     public router: Router, private calendar: NgbCalendar,
-    config: NgbInputDatepickerConfig) {
+    config: NgbInputDatepickerConfig, public formatter: NgbDateParserFormatter) {
     this.programacionesCollection = afs.collection<Programacion>('programaciones');
-   
-/*     config.minDate = {year: 2022, month: 5, day: 1};
-    config.maxDate = {year: 2099, month: 12, day: 31};
-    config.outsideDays = 'hidden';
-    config.placement = 'top-left';
-   */
-  }
 
-  compareDates(){
-      console.log('compareDates');
-    if (this.toProg <= this.fromProg) {
-      this.toProg = this.fromProg
-      this.errorFecha = 1;
-    }
   }
 
   ngOnInit(): void {
   }
+  
+  compareDates() {
+
+    const parsed = this.formatter.format(this.toProg);
+    const parsed2 = this.formatter.format(this.fromProg);
+
+    if (parsed < parsed2) {
+      this.errorFecha = 1;
+    } else {
+      this.errorFecha = 0;
+    }
+
+    setTimeout(() => {
+      this.errorFecha = 0;
+    }, 2000);
+
+  }
+
 
   createProgramacion() {
     const id = this.afs.createId();
@@ -91,7 +95,6 @@ export class AddComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/programacion']);
     }, 500);
-
   }
 
   openBackDropCustomClass(content: any) {

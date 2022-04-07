@@ -1,14 +1,16 @@
 <div class="cuadrocolor">
     <div class="form-group">
 
-<div *ngIf="errorFecha !== 0">
-    <ngb-alert type="danger" (closed)="close()">
-
-      <strong *ngIf="errorFecha === 1">Atención! La fecha de finalización tiene que ser superior a la de inicio</strong>
-      <strong *ngIf="errorFecha === 2">Atención! La fecha tiene que estar dentro del Rango de la programación</strong>
-
-    </ngb-alert>
-  </div>
+        <div *ngIf="errorFecha !== 0">
+            <ngb-alert type="danger" (closed)="close()">
+                <strong *ngIf="errorFecha === 1">
+                    Atención! La fecha de finalización tiene que ser superior a la de
+                    inicio</strong>
+                <strong *ngIf="errorFecha === 2">
+                    Atención! La fecha tiene que estar dentro del Rango de la
+                    programación</strong>
+            </ngb-alert>
+        </div>
         <div class="titulo">Agregar Programación</div>
         <label>{{grupo_nombre}} </label>
         <label>Lugar </label>
@@ -33,67 +35,66 @@
             <div class="col-12 titulo">
                 Rango de la programación
             </div>
-            
-        <div class="col-6" style="padding: 1vh;"> Fecha desde
-            <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" 
-                    [(ngModel)]="fromProg" ngbDatepicker  #d="ngbDatepicker"  >
-                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-            </div>
-        </div>
-        <div class="col-6" style="padding: 1vh;"> Fecha Hasta 
-            <div class="input-group">
-               <input class="form-control" placeholder="yyyy-mm-dd" name="dp" 
-                [(ngModel)]="toProg" ngbDatepicker #dp="ngbDatepicker">
-                <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-            </div>
-        </div>
-        <div class="col s12">
-            <button type="button" class="btngeneralRedondeado" (click)="createProgramacion()">
-                Cargar Terapias
-            </button>
-        </div>
-    </div>
-</div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h1 class="modal-title">Terapias</h1>
-        <button type="button" class="btnCerrar" aria-label="Close" (click)="cerrarPop()">X</button>
-    </div>
-    <div class="row" style="padding: 3vh;">
-        <div class="col-6" style="padding: 1vh; width: fit-content; font-weight: bold;">
-            Nombre Terapia
-        </div>
-        <div class="col-6" style="padding: 1vh; width: fit-content;">
-            <input type="text" placeholder="máximo 30 caracteres" [(ngModel)]="nombreTerapia" size="22"
-                maxlength="30" />
-        </div>
-        <div class="col-6" style="padding: 1vh; width: fit-content; font-weight: bold;">
-            Terapeuta
-        </div>
-        <div class="col-6" style="padding: 1vh; width: fit-content;">
-            <input type="text" placeholder="máximo 30 caracteres" [(ngModel)]="nombreTerapeuta" size="22"
-                maxlength="30" />
-        </div>
-        <div class="col-6" style="padding: 1vh;">
-            <div class="input-group">
-                Fecha desde <input class="form-control" placeholder="yyyy-mm-dd" name="dp" 
-                [(ngModel)]="fromTerapy" ngbDatepicker  #de="ngbDatepicker"  >
-                <button class="btn btn-outline-secondary calendar" (click)="de.toggle()" type="button"></button>
+            <div class="col-6" style="padding: 1vh;"> Fecha desde
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fromProg" ngbDatepicker
+                        #d="ngbDatepicker">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle();" type="button"></button>
+                </div>
             </div>
-        </div>
-        <div class="col-6" style="padding: 1vh;">
-            <div class="input-group">
-                Fecha Hasta <input class="form-control" placeholder="yyyy-mm-dd" name="dp" 
-                [(ngModel)]="toTerapy" ngbDatepicker #dEt="ngbDatepicker">
-                <button class="btn btn-outline-secondary calendar" (click)="dEt.toggle()" type="button"></button>
+            <div class="col-6" style="padding: 1vh;"> Fecha Hasta
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="toProg" ngbDatepicker
+                        #dp="ngbDatepicker" (dateSelect)="compareDates()">
+                    <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                </div>
+            </div>
+            <div class="col s12">
+                <button type="button" class="btngeneralRedondeado" (click)="createProgramacion()">
+                    Cargar Terapias
+                </button>
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btnCerrar" (click)="cerrarPop()">DESCARTAR</button>
-        <button type="button" class="prog" (click)="addTerapia()">Agregar</button>
-    </div>
-</ng-template>
- 
+
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h1 class="modal-title">Terapias</h1>
+            <button type="button" class="btnCerrar" aria-label="Close" (click)="cerrarPop()">X</button>
+        </div>
+        <div class="row" style="padding: 3vh;">
+            <div class="col-6" style="padding: 1vh; width: fit-content; font-weight: bold;">
+                Nombre Terapia
+            </div>
+            <div class="col-6" style="padding: 1vh; width: fit-content;">
+                <input type="text" placeholder="máximo 30 caracteres" [(ngModel)]="nombreTerapia" size="22"
+                    maxlength="30" />
+            </div>
+            <div class="col-6" style="padding: 1vh; width: fit-content; font-weight: bold;">
+                Terapeuta
+            </div>
+            <div class="col-6" style="padding: 1vh; width: fit-content;">
+                <input type="text" placeholder="máximo 30 caracteres" [(ngModel)]="nombreTerapeuta" size="22"
+                    maxlength="30" />
+            </div>
+            <div class="col-6" style="padding: 1vh;">
+                <div class="input-group">
+                    Fecha desde <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fromTerapy"
+                        ngbDatepicker #de="ngbDatepicker">
+                    <button class="btn btn-outline-secondary calendar" (click)="de.toggle()" type="button"></button>
+                </div>
+            </div>
+            <div class="col-6" style="padding: 1vh;">
+                <div class="input-group">
+                    Fecha Hasta <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="toTerapy"
+                        ngbDatepicker #dEt="ngbDatepicker">
+                    <button class="btn btn-outline-secondary calendar" (click)="dEt.toggle()" type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btnCerrar" (click)="cerrarPop()">DESCARTAR</button>
+            <button type="button" class="prog" (click)="addTerapia()">Agregar</button>
+        </div>
+    </ng-template>
